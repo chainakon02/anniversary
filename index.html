@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Happy Anniversary!</title>
+  <meta name="description" content="A cinematic anniversary film in four acts: a beating heart you open with a tap, a rush of colour, a kinetic wish, and a tree that blooms into a heart of petals." />
+  <meta name="theme-color" content="#f7e7dc" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&family=Kalam:wght@400;700&family=Mali:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <script>
+    document.documentElement.classList.add('js');
+    (function() {
+      function checkDevice() {
+        var ua = navigator.userAgent || '';
+        var isPhoneUA = /iPhone|iPod|Windows Phone|webOS|BlackBerry|IEMobile|Opera Mini/i.test(ua) || (/Android/i.test(ua) && /Mobile/i.test(ua));
+        var minDim = Math.min(window.screen.width || 9999, window.screen.height || 9999);
+        // iPad detection: iPadOS reports "MacIntel" with touch points and screen dimension >= 700
+        var isIPad = /iPad/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1 && minDim >= 700);
+        var isPhone = (isPhoneUA || minDim < 650) && !isIPad;
+        if (isPhone) {
+          document.documentElement.classList.add('is-mobile-blocked');
+        } else {
+          document.documentElement.classList.remove('is-mobile-blocked');
+        }
+      }
+      checkDevice();
+      window.addEventListener('resize', checkDevice);
+      window.addEventListener('orientationchange', checkDevice);
+    })();
+  </script>
+  <link rel="stylesheet" href="./birthday.css" />
+</head>
+<body>
+  <!-- Mobile Device Intercept Screen (Requires iPad / Tablet / Desktop) -->
+  <div class="mobile-block-screen" id="mobileBlockScreen" role="dialog" aria-modal="true" aria-label="กรุณาเปิดบน iPad">
+    <div class="mobile-block-card">
+      <div class="mobile-block-icon" aria-hidden="true">
+        <svg class="ipad-device-svg" viewBox="0 0 100 130" width="88" height="114" fill="none">
+          <!-- iPad body -->
+          <rect x="10" y="8" width="80" height="114" rx="14" fill="#ffffff" stroke="#c41f52" stroke-width="3" filter="drop-shadow(0 8px 20px rgba(196,31,82,0.22))"/>
+          <!-- iPad screen -->
+          <rect x="16" y="16" width="68" height="92" rx="8" fill="#fff3f6"/>
+          <!-- Camera notch / dot -->
+          <circle cx="50" cy="12" r="1.5" fill="#c41f52"/>
+          <!-- Home bar / indicator -->
+          <rect x="38" y="114" width="24" height="2.5" rx="1.2" fill="#c41f52" opacity="0.6"/>
+          <!-- Beating heart on screen (counter-rotates so it stays upright in landscape!) -->
+          <g class="ipad-screen-content">
+            <path class="ipad-heart" d="M50 64 C40 50, 30 58, 30 68 C30 78, 48 88, 50 90 C52 88, 70 78, 70 68 C70 58, 60 50, 50 64 Z" fill="url(#ipadHeartGrad)" transform="translate(0, -13)"/>
+          </g>
+          <defs>
+            <linearGradient id="ipadHeartGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#ff7597"/>
+              <stop offset="100%" stop-color="#c41f52"/>
+            </linearGradient>
+          </defs>
+        </svg>
+
+        <!-- Curved Rotate Indicator Arrow -->
+        <svg class="rotate-arrow-svg" viewBox="0 0 40 40" width="36" height="36" fill="none">
+          <path d="M8 20 A12 12 0 1 1 20 32" stroke="#c41f52" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="3 3"/>
+          <path d="M16 32 L20 32 L20 28" fill="none" stroke="#c41f52" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+
+        <span class="mobile-block-sparkle sparkle-1">✨</span>
+        <span class="mobile-block-sparkle sparkle-2">💖</span>
+      </div>
+      <h1 class="mobile-block-title">หน้านี้สร้างขึ้นมาเป็นพิเศษสำหรับหน้าจอ iPad</h1>
+    </div>
+  </div>
+
+  <main class="scene" id="scene">
+
+    <!-- The tree world (Act 4). One canvas; it stays transparent until the
+         intro hands off, then it draws its own warm sky + blossom tree. -->
+    <canvas id="tree" class="tree" aria-label="A blossom tree grows and blooms into a heart made of petals" role="img"></canvas>
+
+    <!-- ACT 1 — THE INVITATION ------------------------------------------------
+         A single beating heart on a warm field. It is the only thing the
+         visitor has to do: tap it. Real <button> so it is tappable + keyboard
+         focusable; everything decorative around it is aria-hidden. -->
+    <section class="hero" id="hero" aria-label="Draw the bow to open your card">
+      <div class="hero__bg" aria-hidden="true"></div>
+      <div class="hero__motes" id="motes" aria-hidden="true"></div>
+
+      <p class="hero__eyebrow" id="eyebrow">ยิงหัวใจดวงนี้เพื่อเปิดดูนะ 🏹✨</p>
+
+      <!-- THE TARGET — the heart the arrow flies to (GSAP animates .target) -->
+      <div class="targetWrap" aria-hidden="true">
+        <div class="target" id="target">
+          <span class="heart__glow" aria-hidden="true"></span>
+          <span class="target__heart" id="targetHeart">
+            <svg class="heart__svg" viewBox="0 0 100 92" aria-hidden="true">
+              <defs>
+                <radialGradient id="hg" cx="38%" cy="30%" r="80%">
+                  <stop offset="0%"  stop-color="#ffd9e4" />
+                  <stop offset="42%" stop-color="#ff6f97" />
+                  <stop offset="82%" stop-color="#d81e57" />
+                  <stop offset="100%" stop-color="#9d0f3e" />
+                </radialGradient>
+                <linearGradient id="hsheen" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%"  stop-color="rgba(255,255,255,.85)" />
+                  <stop offset="34%" stop-color="rgba(255,255,255,0)" />
+                </linearGradient>
+              </defs>
+              <path d="M50 86.5C26 68 10.5 53.6 10.5 34.6 10.5 20.4 21 11 33.2 11c8.6 0 14.2 4.7 16.8 11.4C52.6 15.7 58.2 11 66.8 11 79 11 89.5 20.4 89.5 34.6 89.5 53.6 74 68 50 86.5Z" fill="url(#hg)" />
+              <path d="M50 86.5C26 68 10.5 53.6 10.5 34.6 10.5 20.4 21 11 33.2 11c8.6 0 14.2 4.7 16.8 11.4C52.6 15.7 58.2 11 66.8 11 79 11 89.5 20.4 89.5 34.6 89.5 53.6 74 68 50 86.5Z" fill="url(#hsheen)" opacity=".7" />
+              <ellipse cx="34" cy="30" rx="8.5" ry="5.4" fill="#fff" opacity=".72" style="mix-blend-mode:screen" />
+            </svg>
+          </span>
+        </div>
+      </div>
+
+      <!-- THE BOW + ARROW — draw the string back, release to fire. The rig is
+           placed lower-left and rotated by JS to aim at the heart, so the shot
+           travels on a diagonal. A real control: role=button + keyboard drag. -->
+      <div class="archery" id="archery" role="button" tabindex="0"
+           aria-label="Draw the bow and release to send the arrow to the heart">
+
+          <!-- aim line, inside the rig so it points straight at the heart -->
+          <div class="aim" id="aim" aria-hidden="true"></div>
+
+          <!-- realistic recurve bow: wooden limbs, leather grip, a live string -->
+          <svg class="bow" id="bow" viewBox="0 0 460 300" aria-hidden="true">
+            <defs>
+              <linearGradient id="limb" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0"   stop-color="#4a2a1a" />
+                <stop offset=".18" stop-color="#6b3f24" />
+                <stop offset=".5"  stop-color="#8a5127" />
+                <stop offset=".82" stop-color="#6b3f24" />
+                <stop offset="1"   stop-color="#4a2a1a" />
+              </linearGradient>
+              <linearGradient id="limbHi" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="rgba(255,214,160,.8)" />
+                <stop offset="1" stop-color="rgba(255,214,160,0)" />
+              </linearGradient>
+              <linearGradient id="grip" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#2a1a10" />
+                <stop offset=".5" stop-color="#5a3822" />
+                <stop offset="1" stop-color="#2a1a10" />
+              </linearGradient>
+            </defs>
+            <!-- limb body (taper faked with two stacked strokes) -->
+            <path class="bow__limb" d="M34 96 C 118 168, 168 240, 230 252 C 292 240, 342 168, 426 96"
+                  fill="none" stroke="url(#limb)" stroke-width="13" stroke-linecap="round" />
+            <path class="bow__limbHi" d="M34 96 C 118 168, 168 240, 230 252 C 292 240, 342 168, 426 96"
+                  fill="none" stroke="url(#limbHi)" stroke-width="3" stroke-linecap="round" opacity=".7" />
+            <!-- recurve tip hooks -->
+            <path d="M34 96 C 22 82, 26 70, 40 66" fill="none" stroke="url(#limb)" stroke-width="8" stroke-linecap="round" />
+            <path d="M426 96 C 438 82, 434 70, 420 66" fill="none" stroke="url(#limb)" stroke-width="8" stroke-linecap="round" />
+            <!-- leather grip over the belly -->
+            <rect x="216" y="206" width="28" height="70" rx="9" fill="url(#grip)" />
+            <path d="M219 220h22 M219 236h22 M219 252h22" stroke="rgba(0,0,0,.35)" stroke-width="2" />
+            <!-- the string: two segments meeting at the nock (JS animates the nock).
+                 A warm taupe so the taut string actually reads against the cream. -->
+            <line class="bow__str" id="strL" x1="40" y1="70" x2="230" y2="96" stroke="#9a8068" stroke-width="2.2" stroke-linecap="round" />
+            <line class="bow__str" id="strR" x1="420" y1="70" x2="230" y2="96" stroke="#9a8068" stroke-width="2.2" stroke-linecap="round" />
+            <circle class="bow__serving" id="serving" cx="230" cy="96" r="4.5" fill="#6f5137" />
+          </svg>
+
+          <!-- the arrow: winged golden heart tip (Cupid), gold feather fletching -->
+          <svg class="arrow" id="arrow" viewBox="0 0 64 220" aria-hidden="true">
+            <defs>
+              <linearGradient id="shaft" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#4a2c14" />
+                <stop offset=".5" stop-color="#8a5a2c" />
+                <stop offset="1" stop-color="#3e2410" />
+              </linearGradient>
+              <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#ffe38c" />
+                <stop offset=".45" stop-color="#f4a626" />
+                <stop offset="1" stop-color="#a85f0e" />
+              </linearGradient>
+              <linearGradient id="feath" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#ff7f9c" />
+                <stop offset=".5" stop-color="#e6396a" />
+                <stop offset="1" stop-color="#a8154a" />
+              </linearGradient>
+              <linearGradient id="wing" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#ffffff" />
+                <stop offset="1" stop-color="#ffe0c4" />
+              </linearGradient>
+            </defs>
+
+            <!-- shaft (dark wood so it reads against the cream) -->
+            <rect x="29.4" y="30" width="5.2" height="168" rx="2.6" fill="url(#shaft)" />
+
+            <!-- angel wings flanking the heart tip -->
+            <g class="arrow__wings">
+              <path class="wingL" d="M31 30 C 10 16, 2 20, 4 34 C 12 30, 20 32, 31 40 Z" fill="url(#wing)" stroke="rgba(196,132,58,.72)" stroke-width="1.2"/>
+              <path class="wingR" d="M33 30 C 54 16, 62 20, 60 34 C 52 30, 44 32, 33 40 Z" fill="url(#wing)" stroke="rgba(196,132,58,.72)" stroke-width="1.2"/>
+            </g>
+
+            <!-- golden heart arrowhead (Cupid's love arrow) -->
+            <path class="arrow__head" d="M32 12 C 30 7, 22 6.5, 21.5 13 C 21 18, 27 22, 32 27 C 37 22, 43 18, 42.5 13 C 42 6.5, 34 7, 32 12 Z" fill="url(#gold)" stroke="#a5701a" stroke-width=".8" />
+            <ellipse cx="27" cy="13" rx="2.6" ry="1.7" fill="#fff" opacity=".8" style="mix-blend-mode:screen" />
+
+            <!-- gold feather fletching -->
+            <g class="arrow__fletch">
+              <path d="M32 150 C 16 156, 10 178, 15 200 C 24 194, 30 184, 32 176 Z" fill="url(#feath)" />
+              <path d="M32 150 C 48 156, 54 178, 49 200 C 40 194, 34 184, 32 176 Z" fill="url(#feath)" opacity=".92" />
+              <path d="M28 160l4 3 M26 170l6 3 M25 180l7 3" stroke="rgba(130,12,48,.45)" stroke-width="1" />
+              <path d="M36 160l-4 3 M38 170l-6 3 M39 180l-7 3" stroke="rgba(130,12,48,.45)" stroke-width="1" />
+            </g>
+            <!-- nock -->
+            <path d="M29 200 L32 205 L35 200" fill="none" stroke="#c9a25a" stroke-width="2" stroke-linecap="round"/>
+            <!-- invisible tip marker: JS measures it to land the head on the heart -->
+            <circle id="tip" cx="32" cy="9" r="0.6" fill="none" />
+          </svg>
+      </div>
+
+      <p class="hero__hint" id="hint">ดึงแล้วปล่อย</p>
+    </section>
+
+    <!-- ACT 2 — THE FLOOD -----------------------------------------------------
+         The heart bursts into this circle at its landing point, and it swallows
+         the frame in rose. Same trick as the intro dot: no cross-fade anywhere,
+         the colour just arrives. -->
+    <div class="flood" id="flood" aria-hidden="true"></div>
+
+    <!-- ACT 3 — THE WISH (kinetic type on the flood) --------------------------
+         Lives inside the flood's own colour, revealed by it. Every glyph hinges
+         up out of its mask — nothing fades. -->
+    <div class="field" id="field" aria-hidden="true">
+      <div class="blob blob--1"></div>
+      <div class="blob blob--2"></div>
+      <div class="blob blob--3"></div>
+      <div class="fgrid" id="fgrid"></div>
+      <div class="fvignette"></div>
+
+      <div class="camera" id="camera">
+        <p class="kEyebrow" id="kEyebrow">make a wish&hellip;</p>
+        <h2 class="headline" id="headline">
+          <span class="hl__line"><span class="mask"><span class="hl__word" id="wLine1">Happy</span></span></span>
+          <span class="hl__line"><span class="mask"><span class="hl__word" id="wLine2">Anniversary</span></span></span>
+        </h2>
+        <svg class="uline" id="uline" viewBox="0 0 300 26" fill="none" aria-hidden="true">
+          <path class="uline__path" d="M8 16C56 7 132 4 178 6c30 1 78 5 114 12-40 3-108 4-176 3"
+                stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <p class="kSub" id="kSub">to someone worth celebrating</p>
+      </div>
+
+      <div class="bar bar--top" id="barTop"></div>
+      <div class="bar bar--bot" id="barBot"></div>
+    </div>
+
+    <!-- The gold light that bridges the rose wish into the dawn of the tree. -->
+    <div class="bloom" id="bloom" aria-hidden="true"></div>
+
+    <!-- ACT 4 — THE HAND-LETTERED WISH (over the tree) ------------------------ -->
+    <div class="wish" id="wish" aria-hidden="true">
+      <p class="wish__eyebrow" id="wEyebrow">just the beginning&hellip;</p>
+      <div class="wish__heroWrap"><h1 class="wish__hero" id="wHero">Happy Anniversary</h1></div>
+      <span class="wish__rule" id="wRule"></span>
+      <p class="wish__sub" id="wSub">One month down, forever to go.</p>
+    </div>
+
+    <!-- Play the film again once it has settled. -->
+    <button class="replay" id="replay" type="button" hidden>
+      <svg viewBox="0 0 24 24" aria-hidden="true" width="15" height="15">
+        <path d="M12 5V2L7 6l5 4V7a5 5 0 1 1-5 5H5a7 7 0 1 0 7-7z" fill="currentColor" />
+      </svg>
+      Again
+    </button>
+
+    <!-- One lens over the whole film: vignette + fine grain. -->
+    <div class="grade" aria-hidden="true">
+      <div class="grade__vignette"></div>
+      <div class="grade__grain"></div>
+    </div>
+
+    <!-- Scroll down cue button (revealed when Act 4 settles) -->
+    <div class="scroll-cue" id="scrollCue" role="button" aria-label="เลื่อนลงดูสิอ้วนน">
+      <span class="scroll-cue__text">เลื่อนลงดูสิอ้วนน ♥</span>
+      <svg class="scroll-cue__icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 5v14M19 12l-7 7-7-7"/>
+      </svg>
+    </div>
+  </main>
+
+  <!-- ACT 5 — THE ANNIVERSARY STORY & GALLERY -->
+  <div class="anniversary-world" id="anniversaryWorld">
+    <!-- Love Message Section (Vintage Stationery Letter Paper) -->
+    <section class="letter-section" id="letterSection" aria-label="Anniversary Letter">
+      <div class="letter-paper">
+        <!-- Paper fold creases -->
+        <div class="paper-fold paper-fold--top" aria-hidden="true"></div>
+        <div class="paper-fold paper-fold--bottom" aria-hidden="true"></div>
+
+        <!-- Postage Stamp & Postmark (Top Right) -->
+        <div class="letter-stamp-wrap" aria-hidden="true">
+          <div class="postage-stamp">
+            <div class="stamp-inner">
+              <span class="stamp-rate">1st Mo.</span>
+              <span class="stamp-heart">♥</span>
+              <span class="stamp-text">LOVE</span>
+            </div>
+          </div>
+          <div class="postmark">
+            <div class="postmark-circle">
+              <span class="postmark-text-top">BANGKOK</span>
+              <span class="postmark-date">16 SEP</span>
+              <span class="postmark-text-bot">ANNIVERSARY</span>
+            </div>
+            <div class="postmark-waves">
+              <span></span><span></span><span></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3D Wax Seal (Top Center) -->
+        <div class="wax-seal" aria-hidden="true">
+          <div class="wax-seal__body">
+            <div class="wax-seal__ring">
+              <span class="wax-seal__heart">♥</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Letter Stationery Header -->
+        <div class="letter-meta">
+          <div class="letter-addressee">
+            <div class="letter-from">From : Film</div>
+            <div class="letter-to">To: Phakwan 💌</div>
+          </div>
+          <div class="letter-date">Date: September 16th ✨</div>
+        </div>
+
+        <!-- Letter Content with Ruled Stationery Lines -->
+        <div class="letter-content">
+          <h2 class="letter-title">Happy 1st Month Anniversary ♥</h2>
+          <div class="letter-body">
+            <p class="letter-line">ขอบคุณสำหรับ 1 เดือนที่ผ่านมานะ</p>
+            <p class="letter-line">เค้าดีใจมากๆเยย ที่มีอ้วน เค้าไม่เคยรู้สึกแบบนี้มาก่อนเลย</p>
+            <p class="letter-line letter-highlight">เค้ารักอ้วนที่สุดเยยย 💖</p>
+          </div>
+          <div class="letter-signature">
+            <span class="signature-note">Forever & always,</span>
+            <span class="signature-name">From : Film ♥</span>
+          </div>
+        </div>
+
+        <!-- Watermark in paper background -->
+        <div class="letter-watermark" aria-hidden="true">♥</div>
+
+        <!-- Vintage Corner Flourishes -->
+        <span class="letter-flourish letter-flourish--tl" aria-hidden="true">❦</span>
+        <span class="letter-flourish letter-flourish--tr" aria-hidden="true">❦</span>
+        <span class="letter-flourish letter-flourish--bl" aria-hidden="true">❦</span>
+        <span class="letter-flourish letter-flourish--br" aria-hidden="true">❦</span>
+      </div>
+    </section>
+
+    <!-- Swaying Polaroid Gallery -->
+    <section class="gallery-section" id="gallerySection" aria-label="Our Memories Gallery">
+      <div class="gallery-intro">
+        <h2 class="gallery-heading">Our Memories</h2>
+        <p class="gallery-subheading">One month of laughter, love & moments to keep forever ♥</p>
+      </div>
+
+    <div id="gallery">
+      <figure>
+        <img src="/photos/C0E34877-77A9-459D-917A-C319781E1C67.JPG" alt="Mabel in a basket">
+        <figcaption>Mabel in a basket 🐾</figcaption>
+      </figure>
+      <figure class="note-card">
+        <div>
+          <div>
+            <h2>To My Dearest ♥</h2>
+            <p>One month down,</p>
+            <p><span class="highlight-love">Forever to go ✨</span></p>
+          </div>
+        </div>
+      </figure>
+      <figure>
+        <img src="/photos/3992BC23-C09C-406B-BFFF-92615BAD605B.jpg" alt="phakwan & Mabel">
+        <figcaption>phakwan & Mabel 🐱💕</figcaption>
+      </figure>
+      <figure>
+        <img src="/photos/IMG_6348.JPG" alt="phakwan">
+        <figcaption>phakwan ✨</figcaption>
+      </figure>
+      <figure>
+        <img src="/photos/IMG_6435.JPG" alt="phakwan">
+        <figcaption>phakwan 🤍</figcaption>
+      </figure>
+      <figure>
+        <img src="/photos/IMG_6648.JPG" alt="phakwan">
+        <figcaption>phakwan 🌸</figcaption>
+      </figure>
+      <figure>
+        <img src="/photos/IMG_6679.JPG" alt="Princess Mabel">
+        <figcaption>Princess Mabel 🎀</figcaption>
+      </figure>
+      <figure>
+        <img src="/photos/IMG_6791.JPG" alt="phakwan">
+        <figcaption>phakwan 🌷</figcaption>
+      </figure>
+      <figure>
+        <img src="/photos/426E2F29-32C1-48BB-B53E-0B044EB0E5E5.JPG" alt="Silly Mabel">
+        <figcaption>Silly Mabel 🐱</figcaption>
+      </figure>
+      <figure class="note-card">
+        <div>
+          <div>
+            <h2>รักแฟนที่สุดเลย ♥</h2>
+            <p>ขอบคุณที่น่ารักกับเค้าเสมอ</p>
+            <p><span class="highlight-love">คนเก่งของเค้า 💖</span></p>
+          </div>
+        </div>
+      </figure>
+      <figure>
+        <img src="/photos/IMG_6332.jpg" alt="phakwan">
+        <figcaption>phakwan 🎡</figcaption>
+      </figure>
+      <figure>
+        <img src="/photos/EC5E25FD-641C-4B18-96D7-42A56FBD0D18.JPG" alt="Sleepy Mabel">
+        <figcaption>Sleepy Mabel 💤</figcaption>
+      </figure>
+    </div>
+
+    <footer id="info">1-Month</footer>
+    </section>
+  </div>
+
+  <!-- Lightbox Modal for Photo Preview -->
+  <div id="lightbox" class="lightbox" aria-hidden="true" role="dialog" aria-label="Photo Preview">
+    <span class="lightbox-close" id="lightboxClose" title="Close (Esc)">&times;</span>
+    <img class="lightbox-content" id="lightboxImg" alt="Enlarged photo">
+    <div class="lightbox-caption" id="lightboxCaption"></div>
+  </div>
+
+  <!-- Accessible equivalent for reduced-motion + screen readers. -->
+  <p class="sr-only">Happy Anniversary. One month down, forever to go.</p>
+
+  <script type="module" src="./birthday.js"></script>
+</body>
+</html>
