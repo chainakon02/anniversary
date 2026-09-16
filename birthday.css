@@ -54,8 +54,8 @@ body.can-scroll{
   min-height:100vh;
   overflow:hidden;
   z-index:1;
-  transform-origin:center 25%;
-  will-change:transform, border-radius, opacity, filter;
+  transform-origin:center 30%;
+  will-change:transform, border-radius, opacity;
   transition:box-shadow 0.25s ease;
 }
 
@@ -623,12 +623,11 @@ body.can-scroll{
   align-items: center;
   justify-content: center;
 }
-.wax-seal__heart {
-  color: #ffe0e8;
-  font-size: 20px;
-  line-height: 1;
-  text-shadow: 0 1px 2px rgba(60, 0, 15, 0.85), 0 -1px 1px rgba(255, 210, 225, 0.6);
-  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.45));
+.wax-seal__heart-svg {
+  width: 20px;
+  height: 18px;
+  display: block;
+  filter: drop-shadow(0 1px 2px rgba(60, 0, 15, 0.85)) drop-shadow(0 -1px 1px rgba(255, 210, 225, 0.6));
 }
 
 /* Postage Stamp & Postmark (Top Right) */
@@ -673,11 +672,11 @@ body.can-scroll{
   letter-spacing: 0.05em;
   line-height: 1;
 }
-.stamp-heart {
-  font-size: 20px;
-  color: #ffffff;
-  text-shadow: 0 1px 3px rgba(140, 20, 50, 0.45);
-  line-height: 1;
+.stamp-heart-svg {
+  width: 18px;
+  height: 16px;
+  display: block;
+  filter: drop-shadow(0 1px 2px rgba(140, 20, 50, 0.45));
 }
 .stamp-text {
   font-family: "Fraunces", Georgia, serif;
@@ -843,11 +842,13 @@ body.can-scroll{
   left: 50%;
   top: 54%;
   transform: translate(-50%, -50%);
-  font-size: clamp(150px, 32vw, 240px);
-  color: rgba(225, 90, 130, 0.045);
+  width: clamp(150px, 32vw, 230px);
+  height: auto;
+  color: #e15a82;
+  opacity: 0.055;
   pointer-events: none;
   user-select: none;
-  z-index: 1;
+  z-index: 0;
 }
 .letter-flourish {
   position: absolute;

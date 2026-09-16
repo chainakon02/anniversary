@@ -1009,16 +1009,15 @@ function updateSceneZoom() {
       scrollCue.style.pointerEvents = '';
     }
   } else {
-    const scale = 1 - progress * 0.16; // 1.0 -> 0.84
-    const radius = progress * 32; // 0px -> 32px
-    const opacity = 1 - progress * 0.32; // 1.0 -> 0.68
-    const blur = progress * 1.5; // 0px -> 1.5px
+    const scale = 1 - progress * 0.14; // 1.0 -> 0.86
+    const radius = progress * 28; // 0px -> 28px
+    const opacity = 1 - progress * 0.22; // 1.0 -> 0.78
     
     sceneEl.style.transform = `scale(${scale.toFixed(4)})`;
     sceneEl.style.borderRadius = `${radius.toFixed(1)}px`;
     sceneEl.style.opacity = opacity.toFixed(3);
-    sceneEl.style.filter = blur > 0.1 ? `blur(${blur.toFixed(1)}px)` : 'none';
-    sceneEl.style.boxShadow = `0 ${Math.round(progress * 28)}px ${Math.round(progress * 60)}px rgba(160, 30, 70, ${(progress * 0.22).toFixed(2)})`;
+    sceneEl.style.filter = '';
+    sceneEl.style.boxShadow = `0 ${Math.round(progress * 24)}px ${Math.round(progress * 52)}px rgba(160, 30, 70, ${(progress * 0.20).toFixed(2)})`;
     
     if (scrollCue) {
       scrollCue.style.opacity = `${Math.max(1 - progress * 3, 0)}`;
