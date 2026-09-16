@@ -479,10 +479,20 @@ function showWish(on){ wishEl.classList.toggle('is-in', on); }
 
 /* the tree's own rAF: plays once from treeStart(), then holds, living */
 let treeStartT = 0, treeLastT = 0, treeRAF = 0, lastPetal = 0, replayArmed = false;
+let isActivelyScrolling = false, scrollStopTimer = 0;
 window.bdayDone = false;
 
 function treeFrame(now){
   if (!treeStartT){ treeStartT = now; treeLastT = now; }
+
+  // During active touch-scrolling after bloom is complete, pause heavy canvas recalculations
+  // so the GPU compositor runs with 100% bandwidth for silky smooth 60/120 FPS scrolling!
+  if (window.bdayDone && isActivelyScrolling) {
+    treeLastT = now;
+    treeRAF = requestAnimationFrame(treeFrame);
+    return;
+  }
+
   const t  = (now - treeStartT) / 1000;
   const dt = Math.min(0.05, (now - treeLastT) / 1000); treeLastT = now;
 
@@ -975,10 +985,19 @@ function animGallery() {
   if (!galleryObj.classList.contains('active')) {
     galleryObj.classList.add('active');
   }
-  if (galleryTimer) clearTimeout(galleryTimer);
-  galleryTimer = setTimeout(() => {
-    galleryObj.classList.remove('active');
-  }, 10000);
+}
+
+if (galleryObj && 'IntersectionObserver' in window) {
+  const galleryObs = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) {
+        galleryObj.classList.add('active');
+      } else {
+        galleryObj.classList.remove('active');
+      }
+    });
+  }, { threshold: 0.1 });
+  galleryObs.observe(galleryObj);
 }
 
 function enableGalleryScroll() {
@@ -986,7 +1005,6 @@ function enableGalleryScroll() {
   if (scrollCue) {
     scrollCue.classList.add('is-shown');
   }
-  animGallery();
 }
 
 function disableGalleryScroll() {
@@ -1016,24 +1034,21 @@ function updateSceneZoom() {
   const maxScroll = vh * 0.65;
   const progress = Math.min(Math.max(scrollY / maxScroll, 0), 1);
   
-  if (progress === 0) {
+  if (progress <= 0.015) {
     sceneEl.style.transform = '';
-    sceneEl.style.borderRadius = '';
     sceneEl.style.opacity = '';
-    sceneEl.style.boxShadow = '';
+    sceneEl.classList.remove('is-card');
     if (scrollCue && document.body.classList.contains('can-scroll')) {
       scrollCue.style.opacity = '';
       scrollCue.style.pointerEvents = '';
     }
   } else {
+    sceneEl.classList.add('is-card');
     const scale = 1 - progress * 0.16; // 1.0 -> 0.84
-    const radius = progress * 32; // 0px -> 32px
     const opacity = 1 - progress * 0.25; // 1.0 -> 0.75
     
-    sceneEl.style.transform = `scale(${scale.toFixed(4)})`;
-    sceneEl.style.borderRadius = `${radius.toFixed(1)}px`;
+    sceneEl.style.transform = `scale3d(${scale.toFixed(4)}, ${scale.toFixed(4)}, 1)`;
     sceneEl.style.opacity = opacity.toFixed(3);
-    sceneEl.style.boxShadow = `0 ${Math.round(progress * 28)}px ${Math.round(progress * 60)}px rgba(160, 30, 70, ${(progress * 0.22).toFixed(2)})`;
     
     if (scrollCue) {
       scrollCue.style.opacity = `${Math.max(1 - progress * 3, 0)}`;
@@ -1044,7 +1059,12 @@ function updateSceneZoom() {
 
 window.addEventListener('scroll', () => {
   if (document.body.classList.contains('can-scroll')) {
-    animGallery();
+    isActivelyScrolling = true;
+    if (scrollStopTimer) clearTimeout(scrollStopTimer);
+    scrollStopTimer = setTimeout(() => {
+      isActivelyScrolling = false;
+    }, 120);
+
     if (!scrollTicking) {
       scrollTicking = true;
       requestAnimationFrame(updateSceneZoom);
