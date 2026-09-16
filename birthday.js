@@ -902,13 +902,29 @@ function resetAll(){
    SIZING + BOOT
    ============================================================ */
 function resize(){
+  const newW = canvas.clientWidth;
+  const newH = canvas.clientHeight;
+  if (!newW || !newH) return;
+  // Ignore minor mobile address bar fluctuations when height changes slightly on scroll
+  if (newW === W && Math.abs(newH - H) < 140 && (window.bdayDone || replayArmed)) {
+    return;
+  }
+
   dpr = Math.min(window.devicePixelRatio || 1, 2);
-  W = canvas.clientWidth; H = canvas.clientHeight;
+  W = newW; H = newH;
   canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   buildSprites();
   buildScene();
+
   if (reduceMotion){ drawFinal(); return; }
+
+  // If the tree has already bloomed or film completed, redraw it so it never goes blank on scroll/rotate
+  if (window.bdayDone || replayArmed){
+    drawFinal();
+    return;
+  }
+
   if (played && filmTL){
     const at = filmTL.time(); const active = filmTL.isActive();
     filmTL = buildFilm(shotGeom());
@@ -994,33 +1010,28 @@ function updateSceneZoom() {
   const scrollY = window.scrollY || window.pageYOffset || 0;
   const vh = window.innerHeight || 800;
   
-  // Progress from 0 to 1 over the first 65% of viewport scroll
-  const maxScroll = vh * 0.65;
+  // Progress from 0 to 1 over initial scroll (up to 400px)
+  const maxScroll = Math.min(vh * 0.5, 400);
   const progress = Math.min(Math.max(scrollY / maxScroll, 0), 1);
   
   if (progress === 0) {
     sceneEl.style.transform = '';
     sceneEl.style.borderRadius = '';
-    sceneEl.style.opacity = '';
-    sceneEl.style.filter = '';
     sceneEl.style.boxShadow = '';
     if (scrollCue && document.body.classList.contains('can-scroll')) {
       scrollCue.style.opacity = '';
       scrollCue.style.pointerEvents = '';
     }
   } else {
-    const scale = 1 - progress * 0.14; // 1.0 -> 0.86
-    const radius = progress * 28; // 0px -> 28px
-    const opacity = 1 - progress * 0.22; // 1.0 -> 0.78
+    const scale = 1 - progress * 0.08; // 1.0 -> 0.92
+    const radius = progress * 24; // 0px -> 24px
     
     sceneEl.style.transform = `scale(${scale.toFixed(4)})`;
     sceneEl.style.borderRadius = `${radius.toFixed(1)}px`;
-    sceneEl.style.opacity = opacity.toFixed(3);
-    sceneEl.style.filter = '';
-    sceneEl.style.boxShadow = `0 ${Math.round(progress * 24)}px ${Math.round(progress * 52)}px rgba(160, 30, 70, ${(progress * 0.20).toFixed(2)})`;
+    sceneEl.style.boxShadow = `0 ${Math.round(progress * 18)}px ${Math.round(progress * 42)}px rgba(160, 30, 70, ${(progress * 0.16).toFixed(2)})`;
     
     if (scrollCue) {
-      scrollCue.style.opacity = `${Math.max(1 - progress * 3, 0)}`;
+      scrollCue.style.opacity = `${Math.max(1 - progress * 2.5, 0)}`;
       scrollCue.style.pointerEvents = progress > 0.3 ? 'none' : 'auto';
     }
   }
