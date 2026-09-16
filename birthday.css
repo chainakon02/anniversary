@@ -50,7 +50,9 @@ body.can-scroll{
   position:relative;
   width:100%;
   height:100vh;
+  height:100dvh;
   min-height:100vh;
+  min-height:100dvh;
   overflow:hidden;
   z-index:1;
   transform-origin:center center;
@@ -208,6 +210,50 @@ body.can-scroll{
   opacity:0;                          /* GSAP reveals */
 }
 .hero__ring{ display:none; }
+
+/* Responsive adjustments for iPad Air / landscape viewports */
+@media (orientation: landscape) and (max-height: 850px) {
+  .hero__eyebrow {
+    top: 7%;
+    font-size: clamp(14px, 2.4vw, 20px);
+  }
+  .targetWrap {
+    top: 31%;
+  }
+  .target {
+    width: clamp(95px, 17vw, 145px);
+  }
+  .archery {
+    width: clamp(85px, 13vw, 125px);
+  }
+  .hero__hint {
+    bottom: 4.5%;
+    font-size: clamp(13px, 2.2vw, 17px);
+  }
+  .letter-section {
+    padding: 50px 20px 40px;
+  }
+}
+
+@media (max-height: 620px) {
+  .hero__eyebrow {
+    top: 5%;
+    font-size: 14px;
+  }
+  .targetWrap {
+    top: 29%;
+  }
+  .target {
+    width: 90px;
+  }
+  .archery {
+    width: 80px;
+  }
+  .hero__hint {
+    bottom: 3%;
+    font-size: 13px;
+  }
+}
 
 /* ============================================================
    ACT 2 — THE FLOOD (the burst circle)

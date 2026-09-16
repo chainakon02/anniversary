@@ -585,11 +585,13 @@ function applyNock(){
 }
 
 function refreshRig(){
-  // the grip is anchored here, and the heart sits at its layout centre (33% down,
-  // centred) — using the layout point, not a live rect, keeps the aim steady even
-  // while the heart is scaling in.
-  const gripX = W * 0.24, gripY = H * 0.76;
-  const heartX = W * 0.5, heartY = H * 0.33;
+  // the grip is anchored here, and the heart sits at its layout centre.
+  // Using landscape/portrait responsive placement ensures the bow never overflows on iPad/tablets.
+  const isLandscape = (W / H) > 1.15;
+  const gripX = W * (isLandscape ? 0.28 : 0.24);
+  const gripY = H * (isLandscape ? 0.69 : 0.76);
+  const heartX = W * 0.5;
+  const heartY = H * (isLandscape ? 0.31 : 0.33);
   // rotation so local "up" (0,-1) maps to the grip→heart direction
   const aimRad = Math.atan2(heartX - gripX, gripY - heartY);
   pullUX = -Math.sin(aimRad); pullUY = Math.cos(aimRad);  // opposite of aim = pull-back
