@@ -168,65 +168,122 @@ body.can-scroll{
   will-change:transform;
 }
 
-/* ---- the bow + arrow rig ----
-   Placed lower-left and rotated by JS to aim at the heart, so the shot travels
-   on a DIAGONAL. The whole rig (left/top + rotation around the grip) is set in
-   JS from measured geometry; everything below is in the rig's own space. */
-.archery{
-  position:absolute; top:0; left:0;    /* JS sets left/top so the grip anchors */
-  width:clamp(100px, 18vw, 168px);     /* smaller, daintier bow — delicate against the heart */
-  cursor:grab;
-  -webkit-tap-highlight-color:transparent;
-  touch-action:none;                   /* we own the drag gesture */
-  will-change:transform;
-}
-.archery:active{ cursor:grabbing; }
-.archery:focus-visible{ outline:none; }
-.archery:focus-visible .bow{ filter:drop-shadow(0 0 0 3px rgba(255,255,255,.85)) drop-shadow(0 10px 18px rgba(120,50,20,.4)); }
-.bow{
-  display:block; width:100%; height:auto;
-  filter:drop-shadow(0 12px 18px rgba(90,40,15,.3));
-  overflow:visible;
+/* ---- 6-digit passcode card ---- */
+.passcode-card {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  z-index: 10;
+  opacity: 0;                          /* GSAP reveals in enter() */
+  pointer-events: auto;
+  max-width: 90vw;
 }
 
-/* the aim line rides inside the rig, so it points straight at the heart */
-.aim{
-  position:absolute; left:50%; bottom:32%;
-  width:2px; height:190%; margin-left:-1px;
-  transform-origin:bottom center;
-  background:linear-gradient(0deg, rgba(255,214,150,.6) 0%, rgba(255,150,170,.22) 52%, transparent 78%);
-  opacity:0; pointer-events:none;
+.passcode-inputs {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(8px, 1.8vw, 14px);
 }
 
-/* the arrow overlaps the bow at the nock and flies to the heart */
-.arrow{
-  position:absolute; left:0; right:0; margin-inline:auto;
-  bottom:36%;                          /* JS re-anchors the tail to the nock */
-  width:17.5%; height:auto;
-  overflow:visible;
-  will-change:transform;
-  filter:drop-shadow(0 5px 7px rgba(90,40,15,.36));
+.passcode-slot {
+  width: clamp(42px, 5.5vw, 56px);
+  height: clamp(52px, 7vw, 68px);
+  border-radius: 14px;
+  border: 2px solid rgba(224, 112, 142, 0.38);
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #c41f52;
+  font-family: "Mali", "Fraunces", -apple-system, sans-serif;
+  font-size: clamp(22px, 3.2vw, 30px);
+  font-weight: 700;
+  text-align: center;
+  outline: none;
+  box-shadow: 0 6px 16px rgba(196, 31, 82, 0.08), inset 0 2px 4px rgba(255, 255, 255, 0.8);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
+  -webkit-appearance: none;
+  margin: 0;
+  padding: 0;
+  caret-color: transparent;
 }
-.arrow__wings{ transform-box:fill-box; transform-origin:50% 90%; }
-.arrow__wings .wingL,
-.arrow__wings .wingR{ transform-box:fill-box; }
-.wingL{ transform-origin:88% 60%; animation:flapL 2.6s ease-in-out infinite; }
-.wingR{ transform-origin:12% 60%; animation:flapR 2.6s ease-in-out infinite; }
-@keyframes flapL{ 0%,100%{ transform:rotate(0deg); } 50%{ transform:rotate(-11deg); } }
-@keyframes flapR{ 0%,100%{ transform:rotate(0deg); } 50%{ transform:rotate(11deg); } }
 
-/* ---- the draw / release hint ---- */
-.hero__hint{
-  position:absolute; bottom:8.5%; left:0; right:0;
-  text-align:center;
-  font-family:"Mali", "Cormorant Garamond", Georgia, serif;
-  font-weight:600; font-style:italic;
-  font-size:clamp(15px, 3.5vw, 22px);
-  letter-spacing:.06em;
-  color:#b06a7c;
-  opacity:0;                          /* GSAP reveals */
+.passcode-slot:focus {
+  border-color: #d81e57;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 0 0 4px rgba(255, 117, 151, 0.32), 0 8px 22px rgba(196, 31, 82, 0.16);
+  transform: translateY(-2px);
 }
-.hero__ring{ display:none; }
+
+.passcode-slot.is-filled {
+  border-color: rgba(216, 30, 87, 0.6);
+  background: rgba(255, 245, 248, 0.9);
+}
+
+.passcode-slot.is-preset {
+  background: rgba(255, 226, 236, 0.75);
+  color: #b82352;
+  border-color: rgba(220, 100, 135, 0.45);
+  cursor: default;
+  user-select: none;
+  font-weight: 800;
+  box-shadow: inset 0 2px 5px rgba(216, 30, 87, 0.08);
+}
+
+.passcode-slot.is-error {
+  border-color: #e53935;
+  background: rgba(255, 235, 238, 0.95);
+  box-shadow: 0 0 0 3px rgba(229, 57, 53, 0.25);
+  animation: passcodeShake 0.48s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+.passcode-slot.is-success {
+  border-color: #ff6f97;
+  background: rgba(255, 240, 246, 0.95);
+  box-shadow: 0 0 0 4px rgba(255, 111, 151, 0.45), 0 10px 25px rgba(216, 30, 87, 0.25);
+  transform: scale(1.04);
+}
+
+@keyframes passcodeShake {
+  10%, 90% { transform: translate3d(-3px, 0, 0); }
+  20%, 80% { transform: translate3d(4px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-6px, 0, 0); }
+  40%, 60% { transform: translate3d(6px, 0, 0); }
+}
+
+.passcode-hint {
+  font-family: "Mali", "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(14px, 2.2vw, 18px);
+  font-style: italic;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #a85069;
+  text-shadow: 0 1px 6px rgba(255, 255, 255, 0.9);
+  margin: 0;
+  transition: all 0.3s ease;
+}
+
+.passcode-error {
+  font-family: "Mali", "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(13px, 2vw, 16px);
+  font-weight: 600;
+  color: #c41f52;
+  margin: -4px 0 0;
+  min-height: 22px;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.passcode-error.is-shown {
+  opacity: 1;
+  transform: translateY(0);
+}
 
 /* Responsive adjustments for iPad Air / landscape viewports */
 @media (orientation: landscape) and (max-height: 850px) {
@@ -240,12 +297,14 @@ body.can-scroll{
   .target {
     width: clamp(95px, 17vw, 145px);
   }
-  .archery {
-    width: clamp(85px, 13vw, 125px);
+  .passcode-card {
+    top: 60%;
+    gap: 10px;
   }
-  .hero__hint {
-    bottom: 4.5%;
-    font-size: clamp(13px, 2.2vw, 17px);
+  .passcode-slot {
+    width: clamp(38px, 4.8vw, 48px);
+    height: clamp(46px, 6vw, 58px);
+    font-size: clamp(20px, 2.6vw, 26px);
   }
   .letter-section {
     padding: 50px 20px 40px;
@@ -258,17 +317,20 @@ body.can-scroll{
     font-size: 14px;
   }
   .targetWrap {
-    top: 29%;
+    top: 27%;
   }
   .target {
-    width: 90px;
+    width: 86px;
   }
-  .archery {
-    width: 80px;
+  .passcode-card {
+    top: 62%;
+    gap: 8px;
   }
-  .hero__hint {
-    bottom: 3%;
-    font-size: 13px;
+  .passcode-slot {
+    width: 36px;
+    height: 44px;
+    font-size: 18px;
+    border-radius: 10px;
   }
 }
 
