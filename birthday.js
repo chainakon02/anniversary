@@ -1012,28 +1012,31 @@ function updateSceneZoom() {
   const scrollY = window.scrollY || window.pageYOffset || 0;
   const vh = window.innerHeight || 800;
   
-  // Progress from 0 to 1 over initial scroll (up to 400px)
-  const maxScroll = Math.min(vh * 0.5, 400);
+  // Progress from 0 to 1 over the first 65% of viewport scroll
+  const maxScroll = vh * 0.65;
   const progress = Math.min(Math.max(scrollY / maxScroll, 0), 1);
   
   if (progress === 0) {
     sceneEl.style.transform = '';
     sceneEl.style.borderRadius = '';
+    sceneEl.style.opacity = '';
     sceneEl.style.boxShadow = '';
     if (scrollCue && document.body.classList.contains('can-scroll')) {
       scrollCue.style.opacity = '';
       scrollCue.style.pointerEvents = '';
     }
   } else {
-    const scale = 1 - progress * 0.08; // 1.0 -> 0.92
-    const radius = progress * 24; // 0px -> 24px
+    const scale = 1 - progress * 0.16; // 1.0 -> 0.84
+    const radius = progress * 32; // 0px -> 32px
+    const opacity = 1 - progress * 0.25; // 1.0 -> 0.75
     
     sceneEl.style.transform = `scale(${scale.toFixed(4)})`;
     sceneEl.style.borderRadius = `${radius.toFixed(1)}px`;
-    sceneEl.style.boxShadow = `0 ${Math.round(progress * 18)}px ${Math.round(progress * 42)}px rgba(160, 30, 70, ${(progress * 0.16).toFixed(2)})`;
+    sceneEl.style.opacity = opacity.toFixed(3);
+    sceneEl.style.boxShadow = `0 ${Math.round(progress * 28)}px ${Math.round(progress * 60)}px rgba(160, 30, 70, ${(progress * 0.22).toFixed(2)})`;
     
     if (scrollCue) {
-      scrollCue.style.opacity = `${Math.max(1 - progress * 2.5, 0)}`;
+      scrollCue.style.opacity = `${Math.max(1 - progress * 3, 0)}`;
       scrollCue.style.pointerEvents = progress > 0.3 ? 'none' : 'auto';
     }
   }

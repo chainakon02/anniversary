@@ -47,7 +47,8 @@ body.can-scroll{
 }
 
 .scene{
-  position:relative;
+  position:sticky;
+  top:0;
   width:100%;
   height:100vh;
   height:100dvh;
@@ -55,8 +56,8 @@ body.can-scroll{
   min-height:100dvh;
   overflow:hidden;
   z-index:1;
-  transform-origin:center center;
-  will-change:transform, border-radius;
+  transform-origin:center 25%;
+  will-change:transform, border-radius, opacity;
   transition:box-shadow 0.25s ease;
 }
 
