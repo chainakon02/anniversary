@@ -1166,6 +1166,345 @@ body.can-scroll .anniversary-world {
   }
 }
 
+/* --- Flip to Reply Link (Inside Letter Paper - Same as Back) --- */
+.letter-reply-prompt {
+  margin-top: 18px;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  z-index: 5;
+}
+
+.flip-to-reply-btn {
+  background: none;
+  border: none;
+  color: #a80f43;
+  font-family: "Mali", cursive, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 4px 10px;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  opacity: 0.85;
+  transition: opacity 0.2s, transform 0.2s;
+  touch-action: manipulation;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.flip-to-reply-btn:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+.flip-to-reply-btn:active {
+  transform: translateY(0);
+}
+
+/* --- 3D Flip Letter Architecture --- */
+.letter-flip-container {
+  perspective: 2200px;
+  -webkit-perspective: 2200px;
+  max-width: 680px;
+  width: 100%;
+  position: relative;
+  margin: 0 auto;
+  min-height: 520px;
+}
+
+.letter-card-flipper {
+  position: relative;
+  width: 100%;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  transition: transform 0.88s cubic-bezier(0.34, 1.25, 0.64, 1);
+  border-radius: 32px;
+}
+
+.letter-flip-container.is-flipped .letter-card-flipper {
+  transform: rotateY(180deg);
+}
+
+.letter-face {
+  width: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  border-radius: 32px;
+}
+
+.letter-face--front {
+  position: relative;
+  z-index: 2;
+  transform: rotateY(0deg) translateZ(0.1px);
+}
+
+.letter-face--back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotateY(180deg) translateZ(0.1px);
+  z-index: 1;
+}
+
+/* Back Paper Styling */
+.letter-paper--back {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 100%;
+  min-height: 520px;
+  background-color: #fffaf5;
+  background-image: 
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 33px,
+      rgba(224, 112, 142, 0.14) 33px,
+      rgba(224, 112, 142, 0.14) 34px
+    ),
+    radial-gradient(ellipse at 50% 50%, #ffffff 0%, #fffdfa 55%, #fcf0e7 100%);
+  padding: 60px 42px 38px;
+}
+
+.reply-card-content {
+  margin-top: 10px;
+}
+
+.reply-title-back {
+  font-family: "Mali", "Fraunces", Georgia, serif;
+  font-size: clamp(21px, 3.2vw, 26px);
+  font-weight: 700;
+  color: #9d0f3e;
+  margin: 0 0 4px;
+}
+
+.reply-subtitle-back {
+  font-size: 14px;
+  color: #8c5261;
+  margin-bottom: 14px;
+  line-height: 1.4;
+}
+
+.reply-input-wrap {
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.reply-textarea {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 16px;
+  border: 1.5px solid rgba(224, 112, 142, 0.38);
+  background-color: rgba(255, 255, 255, 0.95);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 29px,
+    rgba(224, 112, 142, 0.14) 29px,
+    rgba(224, 112, 142, 0.14) 30px
+  );
+  line-height: 30px;
+  font-family: "Mali", cursive, sans-serif;
+  font-size: 15px;
+  color: #4a1f29;
+  outline: none;
+  resize: none;
+  min-height: 145px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.03);
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+  margin-bottom: 18px;
+}
+
+.reply-textarea:focus {
+  border-color: #d81e57;
+  box-shadow: 
+    0 0 0 3px rgba(255, 117, 151, 0.28),
+    inset 0 2px 4px rgba(0, 0, 0, 0.03);
+}
+
+.reply-textarea::placeholder {
+  color: #b88a95;
+  font-style: italic;
+}
+
+.reply-card-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.reply-submit-btn {
+  width: 100%;
+  padding: 13px;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(135deg, #ff6584 0%, #d81e57 60%, #b81446 100%);
+  color: #ffffff;
+  font-family: "Mali", cursive, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 8px 20px -4px rgba(216, 30, 87, 0.45);
+  transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  touch-action: manipulation;
+}
+
+.reply-submit-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px -4px rgba(216, 30, 87, 0.55);
+}
+
+.reply-submit-btn:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.reply-submit-btn:disabled {
+  opacity: 0.75;
+  cursor: wait;
+}
+
+.submit-btn-spinner {
+  display: none;
+  width: 17px;
+  height: 17px;
+  border: 2.2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: spinnerSpin 0.8s linear infinite;
+}
+
+.reply-submit-btn.is-loading .submit-btn-spinner {
+  display: inline-block;
+}
+
+.flip-back-link {
+  background: none;
+  border: none;
+  color: #a80f43;
+  font-family: "Mali", cursive, sans-serif;
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 4px 10px;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  opacity: 0.85;
+  transition: opacity 0.2s, transform 0.2s;
+  touch-action: manipulation;
+}
+
+.flip-back-link:hover {
+  opacity: 1;
+  transform: translateX(-2px);
+}
+
+.reply-error-msg {
+  margin-top: 8px;
+  font-size: 13px;
+  color: #d32f2f;
+  text-align: center;
+  font-weight: 600;
+}
+
+/* Success State on Back Card */
+.reply-success {
+  text-align: center;
+  padding: 16px 8px;
+}
+
+.success-heart-icon {
+  font-size: 46px;
+  animation: replyWiggle 2s infinite ease-in-out;
+  margin-bottom: 8px;
+}
+
+.success-title {
+  font-family: "Mali", "Fraunces", Georgia, serif;
+  font-size: clamp(20px, 3.2vw, 24px);
+  font-weight: 700;
+  color: #b81446;
+  margin-bottom: 8px;
+}
+
+.success-desc {
+  font-size: 14.5px;
+  color: #63323e;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  max-width: 440px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.success-close-btn {
+  padding: 11px 28px;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(135deg, #ff6584, #d81e57);
+  color: #ffffff;
+  font-family: "Mali", cursive, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 8px 18px -3px rgba(216, 30, 87, 0.4);
+  transition: transform 0.2s, box-shadow 0.2s;
+  touch-action: manipulation;
+}
+
+.success-close-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 22px -3px rgba(216, 30, 87, 0.5);
+}
+
+/* Floating Love Delivery Hearts */
+.flying-heart {
+  position: fixed;
+  pointer-events: none;
+  z-index: 1000000;
+  user-select: none;
+  animation: flyUpAndFade 2.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+@keyframes flyUpAndFade {
+  0% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(0.6) rotate(0deg);
+  }
+  50% {
+    opacity: 0.9;
+    transform: translate3d(var(--tx), -200px, 0) scale(1.2) rotate(var(--rot));
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(calc(var(--tx) * 1.5), -450px, 0) scale(1.4) rotate(calc(var(--rot) * 2));
+  }
+}
+
+@media (max-width: 600px) {
+  .letter-flip-container {
+    min-height: 540px;
+  }
+  .letter-paper--back {
+    padding: 48px 20px 28px;
+    min-height: 540px;
+  }
+  .reply-textarea {
+    min-height: 100px;
+  }
+}
+
 /* --- Gallery Section --- */
 .gallery-section {
   position: relative;

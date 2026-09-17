@@ -228,78 +228,187 @@
   <div class="anniversary-world" id="anniversaryWorld">
     <!-- Love Message Section (Vintage Stationery Letter Paper) -->
     <section class="letter-section" id="letterSection" aria-label="Anniversary Letter">
-      <div class="letter-paper">
-        <!-- Paper fold creases -->
-        <div class="paper-fold paper-fold--top" aria-hidden="true"></div>
-        <div class="paper-fold paper-fold--bottom" aria-hidden="true"></div>
+      <!-- 3D Flip Letter Container -->
+      <div class="letter-flip-container" id="letterFlipContainer">
+        <div class="letter-card-flipper" id="letterCardFlipper">
 
-        <!-- Postage Stamp & Postmark (Top Right) -->
-        <div class="letter-stamp-wrap" aria-hidden="true">
-          <div class="postage-stamp">
-            <div class="stamp-inner">
-              <span class="stamp-rate">1st Mo.</span>
-              <svg class="stamp-heart-svg" viewBox="0 0 100 92" aria-hidden="true">
-                <path d="M50 86.5C26 68 10.5 53.6 10.5 34.6 10.5 20.4 21 11 33.2 11c8.6 0 14.2 4.7 16.8 11.4C52.6 15.7 58.2 11 66.8 11 79 11 89.5 20.4 89.5 34.6 89.5 53.6 74 68 50 86.5Z" fill="#ffffff"/>
+          <!-- FRONT FACE: Film's Love Letter -->
+          <div class="letter-face letter-face--front">
+            <div class="letter-paper">
+              <!-- Paper fold creases -->
+              <div class="paper-fold paper-fold--top" aria-hidden="true"></div>
+              <div class="paper-fold paper-fold--bottom" aria-hidden="true"></div>
+
+              <!-- Postage Stamp & Postmark (Top Right) -->
+              <div class="letter-stamp-wrap" aria-hidden="true">
+                <div class="postage-stamp">
+                  <div class="stamp-inner">
+                    <span class="stamp-rate">1st Mo.</span>
+                    <svg class="stamp-heart-svg" viewBox="0 0 100 92" aria-hidden="true">
+                      <path d="M50 86.5C26 68 10.5 53.6 10.5 34.6 10.5 20.4 21 11 33.2 11c8.6 0 14.2 4.7 16.8 11.4C52.6 15.7 58.2 11 66.8 11 79 11 89.5 20.4 89.5 34.6 89.5 53.6 74 68 50 86.5Z" fill="#ffffff"/>
+                    </svg>
+                    <span class="stamp-text">LOVE</span>
+                  </div>
+                </div>
+                <div class="postmark">
+                  <div class="postmark-circle">
+                    <span class="postmark-text-top">BANGKOK</span>
+                    <span class="postmark-date">17 SEP</span>
+                    <span class="postmark-text-bot">ANNIVERSARY</span>
+                  </div>
+                  <div class="postmark-waves">
+                    <span></span><span></span><span></span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 3D Wax Seal (Top Center) -->
+              <div class="wax-seal" aria-hidden="true">
+                <div class="wax-seal__body">
+                  <div class="wax-seal__ring">
+                    <svg class="wax-seal__heart-svg" viewBox="0 0 100 92" aria-hidden="true">
+                      <path d="M50 86.5C26 68 10.5 53.6 10.5 34.6 10.5 20.4 21 11 33.2 11c8.6 0 14.2 4.7 16.8 11.4C52.6 15.7 58.2 11 66.8 11 79 11 89.5 20.4 89.5 34.6 89.5 53.6 74 68 50 86.5Z" fill="#ffe0e8"/>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Letter Stationery Header -->
+              <div class="letter-meta">
+                <div class="letter-addressee">
+                  <div class="letter-from">From : Film</div>
+                  <div class="letter-to">To: Phakwan 💌</div>
+                </div>
+                <div class="letter-date">Date: September 17th ✨</div>
+              </div>
+
+              <!-- Letter Content with Ruled Stationery Lines -->
+              <div class="letter-content">
+                <h2 class="letter-title">Happy 1st Month Anniversary ♥</h2>
+                <div class="letter-body">
+                  <p class="letter-line">ขอบคุณสำหรับ 1 เดือนที่ผ่านมานะ</p>
+                  <p class="letter-line">เค้าดีใจมากๆเยย ที่มีอ้วน เค้าไม่เคยรู้สึกแบบนี้มาก่อนเลย</p>
+                  <p class="letter-line letter-highlight">เค้ารักอ้วนที่สุดเยยย 💖</p>
+                </div>
+                <div class="letter-signature">
+                  <span class="signature-note">Forever & always,</span>
+                  <span class="signature-name">From : Film ♥</span>
+                </div>
+
+                <div class="letter-reply-prompt">
+                  <button type="button" class="flip-to-reply-btn" id="flipToReplyBtn">
+                    เขียนตอบกลับไหม🥺
+                  </button>
+                </div>
+              </div>
+
+              <!-- Watermark in paper background (SVG vector to prevent iOS Apple emoji substitution) -->
+              <svg class="letter-watermark" viewBox="0 0 100 92" aria-hidden="true">
+                <path d="M50 86.5C26 68 10.5 53.6 10.5 34.6 10.5 20.4 21 11 33.2 11c8.6 0 14.2 4.7 16.8 11.4C52.6 15.7 58.2 11 66.8 11 79 11 89.5 20.4 89.5 34.6 89.5 53.6 74 68 50 86.5Z" fill="currentColor"/>
               </svg>
-              <span class="stamp-text">LOVE</span>
+
+              <!-- Vintage Corner Flourishes -->
+              <span class="letter-flourish letter-flourish--tl" aria-hidden="true">❦</span>
+              <span class="letter-flourish letter-flourish--tr" aria-hidden="true">❦</span>
+              <span class="letter-flourish letter-flourish--bl" aria-hidden="true">❦</span>
+              <span class="letter-flourish letter-flourish--br" aria-hidden="true">❦</span>
             </div>
           </div>
-          <div class="postmark">
-            <div class="postmark-circle">
-              <span class="postmark-text-top">BANGKOK</span>
-              <span class="postmark-date">17 SEP</span>
-              <span class="postmark-text-bot">ANNIVERSARY</span>
+
+          <!-- BACK FACE: Phakwan's Reply Letter -->
+          <div class="letter-face letter-face--back">
+            <div class="letter-paper letter-paper--back">
+              <!-- Paper fold creases -->
+              <div class="paper-fold paper-fold--top" aria-hidden="true"></div>
+              <div class="paper-fold paper-fold--bottom" aria-hidden="true"></div>
+
+              <!-- Mini Postage Stamp (Top Right) -->
+              <div class="letter-stamp-wrap" aria-hidden="true">
+                <div class="postage-stamp">
+                  <div class="stamp-inner">
+                    <span class="stamp-rate">REPLY</span>
+                    <svg class="stamp-heart-svg" viewBox="0 0 100 92" aria-hidden="true">
+                      <path d="M50 86.5C26 68 10.5 53.6 10.5 34.6 10.5 20.4 21 11 33.2 11c8.6 0 14.2 4.7 16.8 11.4C52.6 15.7 58.2 11 66.8 11 79 11 89.5 20.4 89.5 34.6 89.5 53.6 74 68 50 86.5Z" fill="#ffffff"/>
+                    </svg>
+                    <span class="stamp-text">LOVE</span>
+                  </div>
+                </div>
+                <div class="postmark">
+                  <div class="postmark-circle">
+                    <span class="postmark-text-top">TO FILM</span>
+                    <span class="postmark-date">17 SEP</span>
+                    <span class="postmark-text-bot">REPLY</span>
+                  </div>
+                  <div class="postmark-waves">
+                    <span></span><span></span><span></span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 3D Wax Seal (Top Center) -->
+              <div class="wax-seal" aria-hidden="true">
+                <div class="wax-seal__body">
+                  <div class="wax-seal__ring">
+                    <svg class="wax-seal__heart-svg" viewBox="0 0 100 92" aria-hidden="true">
+                      <path d="M50 86.5C26 68 10.5 53.6 10.5 34.6 10.5 20.4 21 11 33.2 11c8.6 0 14.2 4.7 16.8 11.4C52.6 15.7 58.2 11 66.8 11 79 11 89.5 20.4 89.5 34.6 89.5 53.6 74 68 50 86.5Z" fill="#ffe0e8"/>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Header -->
+              <div class="letter-meta">
+                <div class="letter-addressee">
+                  <div class="letter-from">To : Film ♥</div>
+                  <div class="letter-to">From : Phakwan 💌</div>
+                </div>
+                <div class="letter-date">Date: September 17th ✨</div>
+              </div>
+
+              <!-- Content & Form -->
+              <div class="letter-content reply-card-content">
+                <h2 class="letter-title reply-title-back">เขียนจดหมายตอบกลับฟิล์ม 💌</h2>
+                <p class="reply-subtitle-back">มีความในใจหรืออยากบอกอะไรฟิล์ม พิมพ์ส่งตรงนี้ได้เยยนะะ ✨</p>
+
+                <form class="reply-form" id="replyForm">
+                  <div class="reply-input-wrap">
+                    <textarea
+                      id="replyText"
+                      class="reply-textarea"
+                      placeholder="พิมพ์ข้อความที่อยากบอกฟิล์มตรงนี้ได้เลยน้าาา... 💕"
+                      rows="5"
+                      required
+                    ></textarea>
+                  </div>
+
+                  <div class="reply-card-actions">
+                    <button type="submit" class="reply-submit-btn" id="replySubmitBtn">
+                      <span class="submit-btn-spinner" id="replySpinner" aria-hidden="true"></span>
+                      <span class="submit-btn-text" id="replyBtnText">ส่งจดหมายรักให้ฟิล์ม 🕊️💌</span>
+                    </button>
+                    <button type="button" class="flip-back-link" id="flipBackBtn">↩️ พลิกกลับไปอ่านจดหมายฟิล์ม</button>
+                  </div>
+                  <p class="reply-error-msg" id="replyErrorMsg" hidden></p>
+                </form>
+
+                <!-- Success Message State (Hidden initially) -->
+                <div class="reply-success" id="replySuccess" hidden>
+                  <div class="success-heart-icon">🕊️💌</div>
+                  <h3 class="success-title">ส่งจดหมายรักถึงฟิล์มแล้วน้าาา! 💕</h3>
+                  <p class="success-desc">ข้อความความในใจของอ้วน บินตรงไปถึงอีเมลของฟิล์มเรียบร้อยแล้วว เดี๋ยวฟิล์มจะรีบเปิดอ่านนะะ ♥</p>
+                  <button type="button" class="success-close-btn" id="successFlipBackBtn">↩️ พลิกกลับไปอ่านจดหมายฟิล์ม 🥰</button>
+                </div>
+              </div>
+
+              <!-- Vintage Corner Flourishes -->
+              <span class="letter-flourish letter-flourish--tl" aria-hidden="true">❦</span>
+              <span class="letter-flourish letter-flourish--tr" aria-hidden="true">❦</span>
+              <span class="letter-flourish letter-flourish--bl" aria-hidden="true">❦</span>
+              <span class="letter-flourish letter-flourish--br" aria-hidden="true">❦</span>
             </div>
-            <div class="postmark-waves">
-              <span></span><span></span><span></span>
-            </div>
           </div>
+
         </div>
-
-        <!-- 3D Wax Seal (Top Center) -->
-        <div class="wax-seal" aria-hidden="true">
-          <div class="wax-seal__body">
-            <div class="wax-seal__ring">
-              <svg class="wax-seal__heart-svg" viewBox="0 0 100 92" aria-hidden="true">
-                <path d="M50 86.5C26 68 10.5 53.6 10.5 34.6 10.5 20.4 21 11 33.2 11c8.6 0 14.2 4.7 16.8 11.4C52.6 15.7 58.2 11 66.8 11 79 11 89.5 20.4 89.5 34.6 89.5 53.6 74 68 50 86.5Z" fill="#ffe0e8"/>
-              </svg>
-            </div>
-          </div>
-        </div>
-
-        <!-- Letter Stationery Header -->
-        <div class="letter-meta">
-          <div class="letter-addressee">
-            <div class="letter-from">From : Film</div>
-            <div class="letter-to">To: Phakwan 💌</div>
-          </div>
-          <div class="letter-date">Date: September 17th ✨</div>
-        </div>
-
-        <!-- Letter Content with Ruled Stationery Lines -->
-        <div class="letter-content">
-          <h2 class="letter-title">Happy 1st Month Anniversary ♥</h2>
-          <div class="letter-body">
-            <p class="letter-line">ขอบคุณสำหรับ 1 เดือนที่ผ่านมานะ</p>
-            <p class="letter-line">เค้าดีใจมากๆเยย ที่มีอ้วน เค้าไม่เคยรู้สึกแบบนี้มาก่อนเลย</p>
-            <p class="letter-line letter-highlight">เค้ารักอ้วนที่สุดเยยย 💖</p>
-          </div>
-          <div class="letter-signature">
-            <span class="signature-note">Forever & always,</span>
-            <span class="signature-name">From : Film ♥</span>
-          </div>
-        </div>
-
-        <!-- Watermark in paper background (SVG vector to prevent iOS Apple emoji substitution) -->
-        <svg class="letter-watermark" viewBox="0 0 100 92" aria-hidden="true">
-          <path d="M50 86.5C26 68 10.5 53.6 10.5 34.6 10.5 20.4 21 11 33.2 11c8.6 0 14.2 4.7 16.8 11.4C52.6 15.7 58.2 11 66.8 11 79 11 89.5 20.4 89.5 34.6 89.5 53.6 74 68 50 86.5Z" fill="currentColor"/>
-        </svg>
-
-        <!-- Vintage Corner Flourishes -->
-        <span class="letter-flourish letter-flourish--tl" aria-hidden="true">❦</span>
-        <span class="letter-flourish letter-flourish--tr" aria-hidden="true">❦</span>
-        <span class="letter-flourish letter-flourish--bl" aria-hidden="true">❦</span>
-        <span class="letter-flourish letter-flourish--br" aria-hidden="true">❦</span>
       </div>
     </section>
 

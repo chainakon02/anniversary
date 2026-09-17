@@ -940,6 +940,7 @@ function resetAll(){
     sceneEl.style.boxShadow = '';
   }
   disableGalleryScroll();
+  flipToFront();
   treeStop();
   showWish(false);
   window.bdayDone = false; replayArmed = false;
@@ -1183,6 +1184,141 @@ if (lightbox && lightboxImg && lightboxCaption && lightboxClose) {
   });
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && lightbox.classList.contains('open')) closeLightbox();
+  });
+}
+
+/* ============================================================
+   ACT 5.1 — 3D FLIP REPLY LOVE LETTER (Web3Forms to Film's Email)
+   ============================================================ */
+const WEB3FORMS_ACCESS_KEY = '5a961aed-50b3-4add-b346-5edfd67e848e';
+
+const letterFlipContainer = $('letterFlipContainer');
+const flipToReplyBtn = $('flipToReplyBtn');
+const flipBackBtn = $('flipBackBtn');
+const successFlipBackBtn = $('successFlipBackBtn');
+
+const replyForm = $('replyForm');
+const replyText = $('replyText');
+const replySubmitBtn = $('replySubmitBtn');
+const replyBtnText = $('replyBtnText');
+const replyErrorMsg = $('replyErrorMsg');
+const replySuccess = $('replySuccess');
+
+function flipToBack() {
+  if (!letterFlipContainer) return;
+  letterFlipContainer.classList.add('is-flipped');
+  if (replyText) {
+    setTimeout(() => {
+      try { replyText.focus(); } catch (_) {}
+    }, 450);
+  }
+}
+
+function flipToFront() {
+  if (!letterFlipContainer) return;
+  letterFlipContainer.classList.remove('is-flipped');
+}
+
+if (flipToReplyBtn) flipToReplyBtn.addEventListener('click', flipToBack);
+if (flipBackBtn) flipBackBtn.addEventListener('click', flipToFront);
+if (successFlipBackBtn) {
+  successFlipBackBtn.addEventListener('click', () => {
+    flipToFront();
+    setTimeout(() => {
+      if (replyForm) {
+        replyForm.reset();
+        replyForm.hidden = false;
+      }
+      if (replySuccess) replySuccess.hidden = true;
+      if (replyErrorMsg) replyErrorMsg.hidden = true;
+    }, 500);
+  });
+}
+
+function spawnFlyingHearts() {
+  const heartSymbols = ['💖', '💕', '💗', '💓', '💌', '✨', '🥰'];
+  for (let i = 0; i < 24; i++) {
+    const heart = document.createElement('div');
+    heart.className = 'flying-heart';
+    heart.textContent = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+    const startX = window.innerWidth * 0.5 + (Math.random() - 0.5) * (window.innerWidth * 0.8);
+    const startY = window.innerHeight * 0.75 + (Math.random() - 0.5) * 100;
+    heart.style.left = `${startX}px`;
+    heart.style.top = `${startY}px`;
+    heart.style.fontSize = `${18 + Math.random() * 22}px`;
+    heart.style.setProperty('--tx', `${(Math.random() - 0.5) * 220}px`);
+    heart.style.setProperty('--rot', `${(Math.random() - 0.5) * 90}deg`);
+    heart.style.animationDelay = `${Math.random() * 0.6}s`;
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 2600);
+  }
+}
+
+if (replyForm) {
+  replyForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const message = replyText.value.trim();
+    if (!message) {
+      if (replyErrorMsg) {
+        replyErrorMsg.textContent = 'พิมพ์ข้อความก่อนน้าาาอ้วน 💕';
+        replyErrorMsg.hidden = false;
+      }
+      return;
+    }
+
+    if (replySubmitBtn) {
+      replySubmitBtn.disabled = true;
+      replySubmitBtn.classList.add('is-loading');
+      if (replyBtnText) replyBtnText.textContent = 'กำลังบินไปส่งให้ฟิล์ม... 🕊️';
+    }
+    if (replyErrorMsg) replyErrorMsg.hidden = true;
+
+    try {
+      const now = new Date();
+      const timeStr = now.toLocaleDateString('th-TH', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          subject: '💌 จดหมายรักตอบกลับจากพาขวัญ ถึงฟิล์ม (Anniversary)',
+          from_name: 'พาขวัญ 💌',
+          reply_message: message,
+          message: `💌 จดหมายตอบกลับจากพาขวัญ:\n\n"${message}"\n\nส่งเมื่อ: ${timeStr}`,
+          sent_at: timeStr
+        })
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        replyForm.hidden = true;
+        if (replySuccess) replySuccess.hidden = false;
+        spawnFlyingHearts();
+      } else {
+        throw new Error(result.message || 'Submission failed');
+      }
+    } catch (err) {
+      if (replyErrorMsg) {
+        replyErrorMsg.textContent = 'ส่งไม่สำเร็จนิดหน่อยย ลองใหม่อีกทีหรือทักไลน์บอกฟิล์มได้เยยนะะ 💕';
+        replyErrorMsg.hidden = false;
+      }
+    } finally {
+      if (replySubmitBtn) {
+        replySubmitBtn.disabled = false;
+        replySubmitBtn.classList.remove('is-loading');
+        if (replyBtnText) replyBtnText.textContent = 'ส่งจดหมายรักให้ฟิล์ม 🕊️💌';
+      }
+    }
   });
 }
 
