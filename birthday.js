@@ -21,6 +21,13 @@
 
 import gsap from 'gsap';
 
+// Prevent browser from restoring scroll position on page refresh
+if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
+window.scrollTo(0, 0);
+document.body.classList.remove('can-scroll');
+
 /* the pen-stroke plugin: a `drawn` 0..1 property for the underline */
 gsap.registerPlugin({
   name: 'drawn',
@@ -974,14 +981,45 @@ window.addEventListener('resize', () => { if (resizeRAF) return; resizeRAF = req
 
 resize();
 
-if (reduceMotion){
-  drawFinal();
-} else {
-  buildMotes();
-  setupPasscode();
-  enter();
-  replay.addEventListener('click', resetAll);
+function dismissLoader() {
+  const pageLoader = $('pageLoader');
+  if (pageLoader && !pageLoader.classList.contains('is-hidden')) {
+    pageLoader.classList.add('is-hidden');
+    setTimeout(() => {
+      try { pageLoader.remove(); } catch (_) {}
+    }, 600);
+  }
 }
+
+let appStarted = false;
+function startApp() {
+  if (appStarted) return;
+  appStarted = true;
+  window.scrollTo({ top: 0, behavior: 'instant' });
+  dismissLoader();
+  if (reduceMotion){
+    drawFinal();
+  } else {
+    buildMotes();
+    setupPasscode();
+    enter();
+    replay.addEventListener('click', resetAll);
+  }
+}
+
+// Ensure fonts and DOM are loaded before dismissing loader and entering Act 1
+const fontPromise = document.fonts ? document.fonts.ready : Promise.resolve();
+const loadPromise = new Promise((resolve) => {
+  if (document.readyState === 'complete') resolve();
+  else window.addEventListener('load', resolve, { once: true });
+});
+
+Promise.all([fontPromise, loadPromise]).then(() => {
+  requestAnimationFrame(startApp);
+});
+
+// Fallback to ensure loader never hangs if an external resource is slow
+setTimeout(startApp, 2500);
 
 
 if (isRecord){

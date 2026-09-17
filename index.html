@@ -36,6 +36,30 @@
   <link rel="stylesheet" href="./birthday.css" />
 </head>
 <body>
+  <!-- Cinematic Romance Loading Screen -->
+  <div class="page-loader" id="pageLoader" aria-hidden="true">
+    <div class="loader-content">
+      <div class="loader-heart-wrap">
+        <span class="loader-glow"></span>
+        <svg class="loader-heart-svg" viewBox="0 0 100 92">
+          <defs>
+            <radialGradient id="loaderHg" cx="38%" cy="30%" r="80%">
+              <stop offset="0%"  stop-color="#ffd9e4" />
+              <stop offset="42%" stop-color="#ff6f97" />
+              <stop offset="82%" stop-color="#d81e57" />
+              <stop offset="100%" stop-color="#9d0f3e" />
+            </radialGradient>
+          </defs>
+          <path d="M50 86.5C26 68 10.5 53.6 10.5 34.6 10.5 20.4 21 11 33.2 11c8.6 0 14.2 4.7 16.8 11.4C52.6 15.7 58.2 11 66.8 11 79 11 89.5 20.4 89.5 34.6 89.5 53.6 74 68 50 86.5Z" fill="url(#loaderHg)" />
+        </svg>
+      </div>
+      <p class="loader-text">กำลังโหลดความทรงจำ... ✨</p>
+      <div class="loader-bar-wrap">
+        <div class="loader-bar" id="loaderBar"></div>
+      </div>
+    </div>
+  </div>
+
   <!-- Mobile Device Intercept Screen (Requires iPad / Tablet / Desktop) -->
   <div class="mobile-block-screen" id="mobileBlockScreen" role="dialog" aria-modal="true" aria-label="กรุณาเปิดบน iPad">
     <div class="mobile-block-card">
@@ -117,17 +141,19 @@
       </div>
 
       <!-- PASSCODE CONTAINER (6 SLOTS: [  ] [  ] 0 8 2 6) -->
-      <div class="passcode-card" id="passcodeCard" role="form" aria-label="กรอกรหัสผ่านเพื่อเปิดดู">
-        <div class="passcode-inputs" id="passcodeInputs">
-          <input type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="passcode-slot" data-index="0" autocomplete="off" aria-label="ตัวเลขที่ 1" />
-          <input type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="passcode-slot" data-index="1" autocomplete="off" aria-label="ตัวเลขที่ 2" />
-          <input type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="passcode-slot is-preset is-filled" data-index="2" value="0" readonly autocomplete="off" aria-label="ตัวเลขที่ 3 (0)" tabindex="-1" />
-          <input type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="passcode-slot is-preset is-filled" data-index="3" value="8" readonly autocomplete="off" aria-label="ตัวเลขที่ 4 (8)" tabindex="-1" />
-          <input type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="passcode-slot is-preset is-filled" data-index="4" value="2" readonly autocomplete="off" aria-label="ตัวเลขที่ 5 (2)" tabindex="-1" />
-          <input type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="passcode-slot is-preset is-filled" data-index="5" value="6" readonly autocomplete="off" aria-label="ตัวเลขที่ 6 (6)" tabindex="-1" />
+      <div class="passcode-wrap">
+        <div class="passcode-card" id="passcodeCard" role="form" aria-label="กรอกรหัสผ่านเพื่อเปิดดู">
+          <div class="passcode-inputs" id="passcodeInputs">
+            <input type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="passcode-slot" data-index="0" autocomplete="off" aria-label="ตัวเลขที่ 1" />
+            <input type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="passcode-slot" data-index="1" autocomplete="off" aria-label="ตัวเลขที่ 2" />
+            <input type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="passcode-slot is-preset is-filled" data-index="2" value="0" readonly autocomplete="off" aria-label="ตัวเลขที่ 3 (0)" tabindex="-1" />
+            <input type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="passcode-slot is-preset is-filled" data-index="3" value="8" readonly autocomplete="off" aria-label="ตัวเลขที่ 4 (8)" tabindex="-1" />
+            <input type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="passcode-slot is-preset is-filled" data-index="4" value="2" readonly autocomplete="off" aria-label="ตัวเลขที่ 5 (2)" tabindex="-1" />
+            <input type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="passcode-slot is-preset is-filled" data-index="5" value="6" readonly autocomplete="off" aria-label="ตัวเลขที่ 6 (6)" tabindex="-1" />
+          </div>
+          <p class="passcode-hint" id="passcodeHint">วันที่เท่าไหร่น๊าาา 💕</p>
+          <p class="passcode-error" id="passcodeError" aria-live="polite"></p>
         </div>
-        <p class="passcode-hint" id="passcodeHint">วันที่เท่าไหร่น๊าาา 💕</p>
-        <p class="passcode-error" id="passcodeError" aria-live="polite"></p>
       </div>
     </section>
 
