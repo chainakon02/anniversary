@@ -241,12 +241,13 @@ body.can-scroll{
 }
 
 .loader-bar-wrap {
-  width: 140px;
-  height: 4px;
+  width: 160px;
+  height: 5px;
   background: rgba(224, 112, 142, 0.2);
   border-radius: 99px;
   overflow: hidden;
   position: relative;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .loader-bar {
@@ -254,16 +255,19 @@ body.can-scroll{
   left: 0;
   top: 0;
   bottom: 0;
-  width: 40%;
-  background: linear-gradient(90deg, #ff7597, #c41f52);
+  width: 0%;
+  background: linear-gradient(90deg, #ff8da8, #e0245e, #a80f43);
   border-radius: 99px;
-  animation: loaderSlide 1.2s ease-in-out infinite;
+  box-shadow: 0 0 8px rgba(224, 36, 94, 0.5);
+  animation: loaderFill 2.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
-@keyframes loaderSlide {
-  0% { left: -40%; width: 30%; }
-  50% { left: 35%; width: 50%; }
-  100% { left: 100%; width: 30%; }
+@keyframes loaderFill {
+  0%   { width: 0%; }
+  35%  { width: 45%; }
+  65%  { width: 78%; }
+  85%  { width: 92%; }
+  100% { width: 100%; }
 }
 
 /* ---- 6-digit passcode wrapper and card ---- */

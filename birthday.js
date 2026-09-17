@@ -1016,6 +1016,9 @@ function startApp() {
   }
 }
 
+const MIN_LOAD_TIME = 2400; // 2.4s romantic memory loading animation
+const appLoadStart = Date.now();
+
 // Ensure fonts and DOM are loaded before dismissing loader and entering Act 1
 const fontPromise = document.fonts ? document.fonts.ready : Promise.resolve();
 const loadPromise = new Promise((resolve) => {
@@ -1024,11 +1027,15 @@ const loadPromise = new Promise((resolve) => {
 });
 
 Promise.all([fontPromise, loadPromise]).then(() => {
-  requestAnimationFrame(startApp);
+  const elapsed = Date.now() - appLoadStart;
+  const delay = Math.max(0, MIN_LOAD_TIME - elapsed);
+  setTimeout(() => {
+    requestAnimationFrame(startApp);
+  }, delay);
 });
 
 // Fallback to ensure loader never hangs if an external resource is slow
-setTimeout(startApp, 2500);
+setTimeout(startApp, 5000);
 
 
 if (isRecord){
