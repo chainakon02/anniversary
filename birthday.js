@@ -1316,7 +1316,7 @@ if (replyForm) {
       if (replySubmitBtn) {
         replySubmitBtn.disabled = false;
         replySubmitBtn.classList.remove('is-loading');
-        if (replyBtnText) replyBtnText.textContent = 'ส่งจดหมายรักให้ฟิล์ม 🕊️💌';
+        if (replyBtnText) replyBtnText.textContent = 'ส่งจดหมายเยยยย 🕊️💌';
       }
     }
   });
