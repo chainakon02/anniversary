@@ -27,6 +27,15 @@ if ('scrollRestoration' in history) {
 }
 window.scrollTo(0, 0);
 document.body.classList.remove('can-scroll');
+const initWorld = document.getElementById('anniversaryWorld');
+if (initWorld) initWorld.style.display = 'none';
+
+// Prevent unwanted touch rubber-banding / scrolling on iOS/iPadOS during Acts 1-4
+window.addEventListener('touchmove', (e) => {
+  if (!document.body.classList.contains('can-scroll')) {
+    e.preventDefault();
+  }
+}, { passive: false });
 
 /* the pen-stroke plugin: a `drawn` 0..1 property for the underline */
 gsap.registerPlugin({
@@ -1066,6 +1075,8 @@ if (galleryObj && 'IntersectionObserver' in window) {
 
 function enableGalleryScroll() {
   document.body.classList.add('can-scroll');
+  const world = $('anniversaryWorld');
+  if (world) world.style.display = 'block';
   if (scrollCue) {
     scrollCue.classList.add('is-shown');
   }
@@ -1073,6 +1084,8 @@ function enableGalleryScroll() {
 
 function disableGalleryScroll() {
   document.body.classList.remove('can-scroll');
+  const world = $('anniversaryWorld');
+  if (world) world.style.display = 'none';
   if (scrollCue) {
     scrollCue.classList.remove('is-shown');
   }
