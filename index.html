@@ -262,6 +262,58 @@
 
   <!-- ACT 5 — THE ANNIVERSARY STORY & GALLERY -->
   <div class="anniversary-world" id="anniversaryWorld">
+    <!-- SECTION: OUR SPECIAL SONG (CSS RECORD PLAYER) -->
+    <section class="record-section" id="recordSection" aria-label="Our Special Song">
+      <div class="record-section-intro">
+        <span class="record-section-pill">Our Special Song 🎵</span>
+        <h2 class="record-section-title">เพลงของเรา</h2>
+        <p class="record-section-subtitle">เปิดฟังไปด้วยกันนะอ้วนน... เพลงนี้ให้เธอคนเดียวเยยน๊าา 💕</p>
+      </div>
+
+      <div class="record-player-wrap">
+        <div class="vinyl-deck">
+          <div class="player is-stopped" id="recordPlayerEl">
+            <div class="record" id="recordDisc">
+              <div class="spindle"></div>
+              <div class="label">
+                <div class="label-decor label-decor--top">♥</div>
+                <h2 class="label-song-title">ไม่ซับซ้อน</h2>
+                <h3 class="label-artist">[Newery Ft. PONCHET]</h3>
+                <div class="label-dedication">To Phakwan</div>
+              </div>
+            </div>
+
+            <div class="arm-container" id="armContainer">
+              <div class="knob weight bottom"></div>
+              <div class="arm"></div>
+              <div class="knob weight top">
+                <button class="play" id="vinylPlayBtn" type="button" aria-label="เล่นเพลง">
+                  <div class="tooltip" id="vinylTooltip">แตะตรงนี้สิอ้วนน 🎧</div>
+                </button>
+              </div>
+            </div>
+
+            <div class="speaker" aria-hidden="true">
+              <div class="hole"></div>
+              <div class="hole"></div>
+              <div class="hole"></div>
+              <div class="hole"></div>
+              <div class="hole"></div>
+              <div class="hole"></div>
+              <div class="hole"></div>
+              <div class="hole"></div>
+            </div>
+
+            <div class="knob volume bottom" id="volumeKnobBottom" title="ปรับระดับเสียง" aria-hidden="true"> 
+              <div class="down"></div>
+              <div class="up"></div>
+            </div>
+            <div class="knob volume top" id="volumeKnobTop" title="ปรับระดับเสียง" aria-hidden="true"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Love Message Section (Vintage Stationery Letter Paper) -->
     <section class="letter-section" id="letterSection" aria-label="Anniversary Letter">
       <!-- 3D Flip Letter Container -->
@@ -480,58 +532,6 @@
             </div>
           </div>
 
-        </div>
-      </div>
-    </section>
-
-    <!-- SECTION: OUR SPECIAL SONG (CSS RECORD PLAYER) -->
-    <section class="record-section" id="recordSection" aria-label="Our Special Song">
-      <div class="record-section-intro">
-        <span class="record-section-pill">Our Special Song 🎵</span>
-        <h2 class="record-section-title">เพลงของเรา</h2>
-        <p class="record-section-subtitle">เปิดฟังไปด้วยกันนะอ้วนน... เพลงนี้ให้เธอคนเดียวเยยน๊าา 💕</p>
-      </div>
-
-      <div class="record-player-wrap">
-        <div class="vinyl-deck">
-          <div class="player is-stopped" id="recordPlayerEl">
-            <div class="record" id="recordDisc" title="แตะที่แผ่นเสียงหรือหัวเข็มเพื่อเล่นเพลง 🎶">
-              <div class="spindle"></div>
-              <div class="label">
-                <div class="label-decor label-decor--top">♥</div>
-                <h2 class="label-song-title">ไม่ซับซ้อน</h2>
-                <h3 class="label-artist">[Newery Ft. PONCHET]</h3>
-                <div class="label-dedication">To Phakwan</div>
-              </div>
-            </div>
-
-            <div class="arm-container" id="armContainer">
-              <div class="knob weight bottom"></div>
-              <div class="arm"></div>
-              <div class="knob weight top">
-                <button class="play" id="vinylPlayBtn" type="button" aria-label="เล่นเพลง">
-                  <div class="tooltip" id="vinylTooltip">แตะตรงนี้สิอ้วนน 🎧</div>
-                </button>
-              </div>
-            </div>
-
-            <div class="speaker" aria-hidden="true">
-              <div class="hole"></div>
-              <div class="hole"></div>
-              <div class="hole"></div>
-              <div class="hole"></div>
-              <div class="hole"></div>
-              <div class="hole"></div>
-              <div class="hole"></div>
-              <div class="hole"></div>
-            </div>
-
-            <div class="knob volume bottom" id="volumeKnobBottom" title="ปรับระดับเสียง" aria-hidden="true"> 
-              <div class="down"></div>
-              <div class="up"></div>
-            </div>
-            <div class="knob volume top" id="volumeKnobTop" title="ปรับระดับเสียง" aria-hidden="true"></div>
-          </div>
         </div>
       </div>
     </section>
