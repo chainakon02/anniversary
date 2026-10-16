@@ -767,7 +767,7 @@ body.can-scroll .anniversary-world {
   position: relative;
   min-height: 100vh;
   min-height: 100dvh;
-  padding: 50px 20px 45px;
+  padding: 120px 20px 60px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -2319,7 +2319,7 @@ html.is-mobile-blocked .lightbox {
   position: relative;
   max-width: 960px;
   margin: 0 auto;
-  padding: 80px 24px 60px;
+  padding: 90px 24px 110px;
   z-index: 3;
   box-sizing: border-box;
 }
