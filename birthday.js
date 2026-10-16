@@ -270,19 +270,19 @@ function buildScene(){
   bgGrad.addColorStop(0.46, '#ffe7d6');
   bgGrad.addColorStop(0.78, '#fcd9c4');
   bgGrad.addColorStop(1, '#f3c4b5');
-  glowGrad = ctx.createRadialGradient(cx, cy, ry * 0.1, cx, cy, ry * 1.55);
-  glowGrad.addColorStop(0, 'rgba(255,219,170,0.6)');
-  glowGrad.addColorStop(0.5, 'rgba(255,170,150,0.2)');
-  glowGrad.addColorStop(1, 'rgba(255,170,150,0)');
+  glowGrad = ctx.createRadialGradient(cx, cy, ry * 0.1, cx, cy, ry * 1.62);
+  glowGrad.addColorStop(0, 'rgba(255,219,170,0.68)');
+  glowGrad.addColorStop(0.48, 'rgba(255,175,155,0.26)');
+  glowGrad.addColorStop(1, 'rgba(255,175,155,0)');
   groundGrad = ctx.createRadialGradient(cx, H * 1.02, ry * 0.2, cx, H * 1.02, ry * 1.6);
   groundGrad.addColorStop(0, 'rgba(255,205,165,0.5)');
   groundGrad.addColorStop(1, 'rgba(255,205,165,0)');
 
-  for (let i = 0; i < 11; i++){
-    orbs.push({ x: rand(0, W), y: rand(0, H), r: rand(W * 0.05, W * 0.17), vy: rand(-6, -16), drift: rand(-0.3, 0.3), phase: rand(0, 6.28), alpha: rand(0.05, 0.13), sprite: pick(BOKEH) });
+  for (let i = 0; i < 14; i++){
+    orbs.push({ x: rand(0, W), y: rand(0, H), r: rand(W * 0.05, W * 0.17), vy: rand(-6, -16), drift: rand(-0.3, 0.3), phase: rand(0, 6.28), alpha: rand(0.06, 0.14), sprite: pick(BOKEH) });
   }
 
-  const FN = wide ? 18 : 15;
+  const FN = wide ? 28 : 22;
   for (let i = 0; i < FN; i++){
     const depth = Math.random();
     floaters.push({
@@ -291,13 +291,13 @@ function buildScene(){
       box: lerp(Math.min(W, H) * 0.025, Math.min(W, H) * 0.075, depth),
       vy: lerp(7, 20, depth), sway: rand(8, 22), phase: rand(0, 6.28),
       rot: rand(-0.4, 0.4), vrot: rand(-0.5, 0.5),
-      baseA: lerp(0.16, 0.5, depth), soft: depth < 0.45,
+      baseA: lerp(0.18, 0.52, depth), soft: depth < 0.45,
     });
   }
 
   const baseX = cx, baseY = H * 1.0;
   const trunkTopY = cy + ry * 0.62;
-  const trunkW = Math.max(9, W * 0.024);
+  const trunkW = Math.max(11, W * 0.026);
   const limbLen = ry * 0.6;
   const insidePx = (x, y, m = 0.9) => pointInPoly((x - cx) / (rx * m), (cy - y) / (ry * m));
 
@@ -314,9 +314,9 @@ function buildScene(){
   }
   function grow(x, y, ang, len, w, depth, t0){
     const r = addBranch(x, y, ang, len, w, depth, t0);
-    if (r.clipped || depth >= 6 || len < ry * 0.06) return;
+    if (r.clipped || depth >= 7 || len < ry * 0.05) return;
     const childT0 = t0 + (0.32 - depth * 0.03) * 0.6;
-    const n = Math.random() < 0.55 ? 2 : 3;
+    const n = Math.random() < 0.58 ? 2 : 3;
     for (let i = 0; i < n; i++){
       const spread = 0.6 * (i - (n - 1) / 2) + rand(-0.22, 0.22), lift = -0.06 + rand(-0.05, 0.05);
       grow(r.ex, r.ey, ang + spread + lift, len * rand(0.74, 0.84), r.w1, depth + 1, childT0 + i * 0.03);
@@ -333,18 +333,19 @@ function buildScene(){
   const sc = (T.branchSpan - T.trunkStart) / (maxT0 - T.trunkStart);
   for (const b of branches) b.t0 = T.trunkStart + (b.t0 - T.trunkStart) * sc;
 
-  const COUNT = Math.round(clamp(rx * ry / 56, 250, 440));
-  const baseBox = clamp(Math.min(W, H) * 0.115, 30, 74);
+  // Month 2 Evolving Heart Tree: Lush, dense, multi-layered bloom
+  const COUNT = Math.round(clamp(rx * ry / 40, 360, 580));
+  const baseBox = clamp(Math.min(W, H) * 0.12, 32, 78);
   let guard = 0;
   while (hearts.length < COUNT && guard < COUNT * 50){
     guard++;
-    const u = rand(-1.06, 1.06), v = rand(-1.06, 1.06);
+    const u = rand(-1.08, 1.08), v = rand(-1.08, 1.08);
     if (!pointInPoly(u, v)) continue;
     const x = cx + u * rx, y = cy - v * ry;
     const d = clamp01(Math.hypot(u, v + 1) / 2.4);
     const t0 = T.bloomT0 + d * (T.bloomSpan * 0.82) + rand(0, T.bloomSpan * 0.18);
-    const soft = Math.random() < 0.42;
-    hearts.push({ x, y, idx: (Math.random() * BLOSSOM.length) | 0, soft, box: baseBox * (soft ? rand(0.6, 0.85) : rand(0.78, 1.12)), rot: rand(-0.55, 0.55), sway: rand(0, 6.28), t0 });
+    const soft = Math.random() < 0.44;
+    hearts.push({ x, y, idx: (Math.random() * BLOSSOM.length) | 0, soft, box: baseBox * (soft ? rand(0.62, 0.88) : rand(0.78, 1.14)), rot: rand(-0.55, 0.55), sway: rand(0, 6.28), t0 });
   }
   hearts.sort((a, b) => (a.soft === b.soft ? a.y - b.y : a.soft ? -1 : 1));
 }
@@ -361,15 +362,15 @@ function drawGodRays(t, intensity){
   if (intensity <= 0) return;
   ctx.save();
   ctx.globalCompositeOperation = 'lighter';
-  const ox = cx, oy = cy - ry * 0.35, R = Math.hypot(W, H) * 1.1;
-  const rays = 9, sweep = Math.sin(t * 0.07) * 0.18;
+  const ox = cx, oy = cy - ry * 0.35, R = Math.hypot(W, H) * 1.15;
+  const rays = 12, sweep = Math.sin(t * 0.07) * 0.18;
   for (let i = 0; i < rays; i++){
-    const a = -Math.PI / 2 + sweep + (i - (rays - 1) / 2) * 0.2;
-    const hw = 0.035 + 0.02 * (0.5 + 0.5 * Math.sin(t * 0.5 + i * 1.7));
+    const a = -Math.PI / 2 + sweep + (i - (rays - 1) / 2) * 0.17;
+    const hw = 0.038 + 0.024 * (0.5 + 0.5 * Math.sin(t * 0.5 + i * 1.7));
     const a1 = a - hw, a2 = a + hw;
     const g = ctx.createLinearGradient(ox, oy, ox + Math.cos(a) * R, oy + Math.sin(a) * R);
-    g.addColorStop(0, `rgba(255,232,190,${0.10 * intensity})`);
-    g.addColorStop(0.5, `rgba(255,214,170,${0.05 * intensity})`);
+    g.addColorStop(0, `rgba(255,232,190,${0.12 * intensity})`);
+    g.addColorStop(0.5, `rgba(255,214,170,${0.06 * intensity})`);
     g.addColorStop(1, 'rgba(255,214,170,0)');
     ctx.fillStyle = g;
     ctx.beginPath();
@@ -386,6 +387,40 @@ function drawGlow(t){
   if (gi <= 0) return;
   ctx.save(); ctx.globalAlpha = gi; ctx.globalCompositeOperation = 'lighter';
   ctx.fillStyle = glowGrad; ctx.fillRect(0, 0, W, H);
+  ctx.restore();
+}
+
+function drawSkyWatermark(t){
+  const appear = clamp01((t - T.bloomT0) / (T.bloomSpan * 0.95));
+  if (appear <= 0) return;
+
+  const ease = easeOutCubic(appear);
+  const alpha = ease * 0.26; // clearly visible, elegant watermark
+
+  ctx.save();
+  const wide = W / H > 1.2;
+  // Positioned in the open sky to the left of the heart tree
+  const targetX = wide ? W * 0.26 : cx - rx * 0.50;
+  const targetY = wide ? H * 0.30 : cy - ry * 0.30;
+  const fontSize = Math.round(clamp(Math.min(W * 0.34, H * 0.44), 150, 340));
+  const breath = 1 + Math.sin(t * 0.7) * 0.015;
+
+  ctx.translate(targetX, targetY);
+  ctx.scale(breath, breath);
+
+  const textGrad = ctx.createLinearGradient(0, -fontSize * 0.45, 0, fontSize * 0.45);
+  textGrad.addColorStop(0, `rgba(215, 65, 110, ${alpha * 0.95})`);
+  textGrad.addColorStop(0.5, `rgba(235, 95, 140, ${alpha * 1.1})`);
+  textGrad.addColorStop(1, `rgba(185, 40, 85, ${alpha * 0.9})`);
+
+  ctx.font = `700 ${fontSize}px "Fraunces", "Cormorant Garamond", Georgia, serif`;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.shadowColor = `rgba(255, 160, 190, ${alpha * 0.85})`;
+  ctx.shadowBlur = fontSize * 0.10;
+  ctx.fillStyle = textGrad;
+
+  ctx.fillText('2M', 0, 0);
   ctx.restore();
 }
 
@@ -449,9 +484,9 @@ function drawHearts(t){
 
 function updateTwinkles(t, dt){
   const active = t > T.bloomT0 + T.bloomSpan * 0.45;
-  if (active && twinkles.length < 9 && Math.random() < 0.5){
+  if (active && twinkles.length < 18 && Math.random() < 0.65){
     const h = hearts[(Math.random() * hearts.length) | 0];
-    if (h) twinkles.push({ x: h.x, y: h.y, size: rand(0.6, 1.3) * (Math.min(W, H) * 0.05), age: 0, life: rand(0.7, 1.2), rot: rand(0, 6.28) });
+    if (h) twinkles.push({ x: h.x + rand(-6, 6), y: h.y + rand(-6, 6), size: rand(0.65, 1.45) * (Math.min(W, H) * 0.05), age: 0, life: rand(0.65, 1.25), rot: rand(0, 6.28) });
   }
   ctx.save(); ctx.globalCompositeOperation = 'lighter';
   for (let i = twinkles.length - 1; i >= 0; i--){
@@ -467,16 +502,31 @@ function updateTwinkles(t, dt){
 function spawnPetal(){
   const h = hearts[(Math.random() * hearts.length) | 0];
   if (!h) return;
-  petals.push({ x: h.x + rand(-8, 8), y: h.y + rand(-8, 8), vy: rand(14, 30), vx: rand(-8, 8), sway: rand(0.6, 1.4), phase: rand(0, 6.28), box: h.box * rand(0.34, 0.6), idx: h.idx, rot: rand(0, 6.28), vrot: rand(-1.4, 1.4), age: 0, land: groundY + rand(-6, H * 0.05) });
+  // Gentle rightward wind drift and natural flutter
+  petals.push({
+    x: h.x + rand(-12, 12),
+    y: h.y + rand(-12, 12),
+    vy: rand(16, 32),
+    vx: rand(4, 22),
+    sway: rand(0.8, 1.8),
+    phase: rand(0, 6.28),
+    box: h.box * rand(0.36, 0.66),
+    idx: h.idx,
+    rot: rand(0, 6.28),
+    vrot: rand(-1.6, 1.6),
+    age: 0,
+    land: groundY + rand(-8, H * 0.055)
+  });
 }
 function drawPetals(t, dt){
   for (let i = petals.length - 1; i >= 0; i--){
     const p = petals[i]; p.age += dt; p.vy += 8 * dt;
-    p.x += (p.vx + Math.sin(t * p.sway + p.phase) * 16) * dt;
+    const breeze = Math.sin(t * 1.3 + p.phase) * 16;
+    p.x += (p.vx + breeze) * dt;
     p.y += p.vy * dt; p.rot += p.vrot * dt;
     if (p.y >= p.land){
-      rested.push({ x: clamp(p.x, 6, W - 6), y: p.land, box: p.box, idx: p.idx, rot: p.rot, a: rand(0.7, 0.95) });
-      if (rested.length > 90) rested.shift();
+      rested.push({ x: clamp(p.x, 6, W - 6), y: p.land, box: p.box, idx: p.idx, rot: p.rot, a: rand(0.72, 0.95) });
+      if (rested.length > 200) rested.shift();
       petals.splice(i, 1); continue;
     }
     const a = p.age < 0.3 ? p.age / 0.3 : 1;
@@ -487,7 +537,27 @@ function drawRested(){
   for (const r of rested) drawSprite(SPR.crisp[r.idx], r.x, r.y, r.box, r.rot, r.a);
 }
 
-function showWish(on){ wishEl.classList.toggle('is-in', on); }
+let wishShownState = false;
+let wishMorphTimer = null;
+function showWish(on){
+  if (wishShownState === on) return;
+  wishShownState = on;
+  wishEl.classList.toggle('is-in', on);
+  if (on) {
+    if (wishMorphTimer) clearTimeout(wishMorphTimer);
+    wishMorphTimer = setTimeout(() => {
+      const wishMorph = $('wishMorph');
+      if (wishMorph && !wishMorph.classList.contains('is-transformed')) {
+        wishMorph.classList.add('is-transformed');
+        spawnMilestoneSparkles(wishMorph);
+      }
+    }, 2000);
+  } else {
+    if (wishMorphTimer) clearTimeout(wishMorphTimer);
+    const wishMorph = $('wishMorph');
+    if (wishMorph) wishMorph.classList.remove('is-transformed');
+  }
+}
 
 /* the tree's own rAF: plays once from treeStart(), then holds, living */
 let treeStartT = 0, treeLastT = 0, treeRAF = 0, lastPetal = 0, replayArmed = false;
@@ -513,12 +583,13 @@ function treeFrame(now){
   drawBackground();
   drawGodRays(t, rays);
   drawGlow(t);
+  drawSkyWatermark(t);
   drawBokeh(t, dt);
   drawFloaters(t, dt, false);
   drawBranches(t);
   drawHearts(t);
   updateTwinkles(t, dt);
-  if (t > T.petalT0 && now - lastPetal > 150){ spawnPetal(); spawnPetal(); lastPetal = now; }
+  if (t > T.petalT0 && now - lastPetal > 105){ spawnPetal(); spawnPetal(); if (Math.random() < 0.65) spawnPetal(); lastPetal = now; }
   drawPetals(t, dt);
   drawRested();
   drawFloaters(t, dt, true);
@@ -943,6 +1014,7 @@ function resetAll(){
   flipToFront();
   treeStop();
   showWish(false);
+  if (typeof resetMilestoneTransitions === 'function') resetMilestoneTransitions();
   window.bdayDone = false; replayArmed = false;
   replay.classList.remove('is-shown'); replay.hidden = true;
   if (filmTL){ filmTL.pause(0); }
@@ -1159,11 +1231,16 @@ window.addEventListener('scroll', () => {
 
 // Lightbox modal setup
 if (lightbox && lightboxImg && lightboxCaption && lightboxClose) {
-  const figures = document.querySelectorAll('#gallery figure');
+  // Use .gallery-flip-front to support the new flip-card structure
+  const figures = document.querySelectorAll('#gallery .gallery-flip-front');
   figures.forEach((fig) => {
     const img = fig.querySelector('img');
     if (!img) return; // skip note card
     fig.addEventListener('click', () => {
+      // Don't open lightbox when card is showing its back face
+      const flipWrap = fig.closest('.gallery-flip-wrap');
+      if (flipWrap && flipWrap.classList.contains('is-flipped')) return;
+
       const cap = fig.querySelector('figcaption');
       lightboxImg.src = img.src;
       lightboxImg.alt = img.alt || '';
@@ -1321,4 +1398,410 @@ if (replyForm) {
     }
   });
 }
+
+/* ============================================================
+   MILESTONE TRANSITIONS (1st -> 2nd Month Animations)
+   ============================================================ */
+
+function spawnMilestoneSparkles(targetEl) {
+  if (!targetEl) return;
+  const rect = targetEl.getBoundingClientRect();
+  const emojis = ['✨', '💖', '🌸', '💕', '🥰'];
+  const count = 7;
+  for (let i = 0; i < count; i++) {
+    const span = document.createElement('span');
+    span.className = 'milestone-floating-sparkle';
+    span.textContent = emojis[i % emojis.length];
+    const offsetX = (Math.random() - 0.5) * (rect.width || 40);
+    const offsetY = (Math.random() - 0.5) * (rect.height || 20);
+    span.style.left = `${rect.left + rect.width / 2 + offsetX}px`;
+    span.style.top = `${rect.top + rect.height / 2 + offsetY}px`;
+    span.style.setProperty('--vx', `${(Math.random() - 0.5) * 80}px`);
+    span.style.setProperty('--vy', `${-28 - Math.random() * 45}px`);
+    document.body.appendChild(span);
+    setTimeout(() => span.remove(), 1250);
+  }
+}
+
+let letterMilestoneTransformed = false;
+let galleryMilestoneTransformed = false;
+
+function triggerLetterMilestone() {
+  if (letterMilestoneTransformed) return;
+  letterMilestoneTransformed = true;
+
+  // 1. Stamp punch & rate flip (1st Mo. -> 2nd Mo.)
+  const stamp = $('postageStamp');
+  const stampRate = $('stampRateMorph');
+  if (stamp) {
+    stamp.classList.remove('is-stamped');
+    void stamp.offsetWidth;
+    stamp.classList.add('is-stamped');
+  }
+  if (stampRate) {
+    stampRate.classList.add('is-transformed');
+    spawnMilestoneSparkles(stampRate);
+  }
+
+  // 2. Postmarks (17 SEP -> 17 OCT)
+  const pmFront = $('postmarkFront');
+  const pmBack = $('postmarkBack');
+  const pmDateFront = $('postmarkDateFront')?.querySelector('.morph-flip-wrap');
+  const pmDateBack = $('postmarkDateBack')?.querySelector('.morph-flip-wrap');
+  if (pmFront) {
+    pmFront.classList.remove('is-stamped');
+    void pmFront.offsetWidth;
+    pmFront.classList.add('is-stamped');
+  }
+  if (pmBack) {
+    pmBack.classList.remove('is-stamped');
+    void pmBack.offsetWidth;
+    pmBack.classList.add('is-stamped');
+  }
+  if (pmDateFront) pmDateFront.classList.add('is-transformed');
+  if (pmDateBack) pmDateBack.classList.add('is-transformed');
+  document.querySelectorAll('.postmark-date-morph').forEach(el => el.classList.add('is-transformed'));
+
+  // 3. Header Date (September 17th -> October 17th)
+  const dateMorph = $('letterDateMorph');
+  if (dateMorph) dateMorph.classList.add('is-transformed');
+
+  // 4. Letter Title (1st Month -> 2nd Month)
+  const titleMorph = $('letterTitleMorph');
+  if (titleMorph) {
+    titleMorph.classList.add('is-transformed');
+    spawnMilestoneSparkles(titleMorph);
+  }
+
+  // 5. Letter Body (1 -> 2 เดือนที่ผ่านมานะ)
+  const bodyNum = $('bodyMonthNum');
+  if (bodyNum) {
+    bodyNum.classList.add('is-transformed');
+    spawnMilestoneSparkles(bodyNum);
+  }
+}
+
+function triggerGalleryMilestone() {
+  if (galleryMilestoneTransformed) return;
+  galleryMilestoneTransformed = true;
+
+  const cardMorph = $('cardMorph');
+  if (cardMorph) {
+    cardMorph.classList.add('is-transformed');
+    spawnMilestoneSparkles(cardMorph);
+  }
+
+  const footerMorph = $('footerMorph');
+  if (footerMorph) {
+    footerMorph.classList.add('is-transformed');
+    spawnMilestoneSparkles(footerMorph);
+  }
+}
+
+function resetMilestoneTransitions() {
+  letterMilestoneTransformed = false;
+  galleryMilestoneTransformed = false;
+  document.querySelectorAll('.morph-flip-wrap').forEach(el => el.classList.remove('is-transformed'));
+  document.querySelectorAll('.is-stamped').forEach(el => el.classList.remove('is-stamped'));
+  if (typeof window.resetGalleryFlip === 'function') window.resetGalleryFlip();
+}
+
+// Observe Letter Section to trigger transformation once in view
+const letterObsTarget = $('letterSection');
+if (letterObsTarget && 'IntersectionObserver' in window) {
+  const letterMilestoneObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        setTimeout(triggerLetterMilestone, 600);
+      }
+    });
+  }, { threshold: 0.2 });
+  letterMilestoneObs.observe(letterObsTarget);
+}
+
+// Observe Gallery Section to trigger note-card & footer transformation
+const galleryObsTarget = $('gallerySection');
+if (galleryObsTarget && 'IntersectionObserver' in window) {
+  const galleryMilestoneObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        setTimeout(triggerGalleryMilestone, 400);
+      }
+    });
+  }, { threshold: 0.15 });
+  galleryMilestoneObs.observe(galleryObsTarget);
+}
+
+// Interactive tap/click to replay milestone transformation on any element
+function makeMorphInteractive(id, onReplay) {
+  const el = $(id);
+  if (!el) return;
+  el.addEventListener('click', (e) => {
+    e.stopPropagation();
+    el.classList.toggle('is-transformed');
+    spawnMilestoneSparkles(el);
+    if (onReplay) onReplay(el);
+  });
+}
+
+makeMorphInteractive('wishMorph');
+makeMorphInteractive('stampRateMorph', () => {
+  const stamp = $('postageStamp');
+  if (stamp) {
+    stamp.classList.remove('is-stamped');
+    void stamp.offsetWidth;
+    stamp.classList.add('is-stamped');
+  }
+});
+makeMorphInteractive('postageStamp', () => {
+  const stamp = $('postageStamp');
+  const stampRate = $('stampRateMorph');
+  if (stamp) {
+    stamp.classList.remove('is-stamped');
+    void stamp.offsetWidth;
+    stamp.classList.add('is-stamped');
+  }
+  if (stampRate) stampRate.classList.toggle('is-transformed');
+});
+makeMorphInteractive('postmarkFront', () => {
+  const pm = $('postmarkFront');
+  const pmDate = $('postmarkDateFront')?.querySelector('.morph-flip-wrap');
+  if (pm) {
+    pm.classList.remove('is-stamped');
+    void pm.offsetWidth;
+    pm.classList.add('is-stamped');
+  }
+  if (pmDate) pmDate.classList.toggle('is-transformed');
+});
+makeMorphInteractive('letterTitleMorph');
+makeMorphInteractive('bodyMonthNum');
+makeMorphInteractive('cardMorph');
+makeMorphInteractive('footerMorph');
+
+/* ============================================================
+   GALLERY FLIP CARD — Auto wave reveal on scroll
+   ============================================================ */
+(function initGalleryFlipCards() {
+  const flipWraps = document.querySelectorAll('.gallery-flip-wrap');
+  if (!flipWraps.length) return;
+
+  // Wrap each .gallery-flip-wrap's children in a .gallery-flip-inner
+  // so that CSS transform-style: preserve-3d works correctly.
+  flipWraps.forEach((wrap) => {
+    if (wrap.querySelector('.gallery-flip-inner')) return;
+    const inner = document.createElement('div');
+    inner.className = 'gallery-flip-inner';
+    while (wrap.firstChild) inner.appendChild(wrap.firstChild);
+    wrap.appendChild(inner);
+  });
+
+  // Spawn heart confetti across the gallery
+  function spawnHeartConfetti() {
+    const gallery = $('gallery') || $('gallerySection');
+    const rect = gallery ? gallery.getBoundingClientRect() : {
+      left: window.innerWidth / 2,
+      top: window.innerHeight / 2,
+      width: 0,
+      height: 0
+    };
+    const cx = rect.left + rect.width / 2;
+    const cy = Math.max(80, Math.min(window.innerHeight * 0.45, rect.top + 160));
+    const hearts = ['💕', '💖', '✨', '🌸', '💗', '🥰', '🌷'];
+    for (let i = 0; i < 20; i++) {
+      const el = document.createElement('span');
+      el.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+      el.style.cssText = `
+        position: fixed;
+        left: ${cx}px;
+        top: ${cy}px;
+        font-size: ${16 + Math.random() * 16}px;
+        pointer-events: none;
+        z-index: 9999;
+        user-select: none;
+        transform: translate(-50%, -50%);
+        transition: none;
+      `;
+      document.body.appendChild(el);
+
+      const angle = (Math.random() * 360) * (Math.PI / 180);
+      const dist  = 70 + Math.random() * 140;
+      const tx    = Math.cos(angle) * dist;
+      const ty    = Math.sin(angle) * dist - 25;
+
+      requestAnimationFrame(() => {
+        el.style.transition = 'transform 0.9s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.85s ease-out';
+        el.style.transform  = `translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px)) scale(0)`;
+        el.style.opacity    = '0';
+      });
+      setTimeout(() => el.remove(), 1000);
+    }
+  }
+
+  let hasFlipped = false;
+
+  function triggerWaveFlip() {
+    if (hasFlipped) return;
+    hasFlipped = true;
+
+    // Flip all cards in wave
+    flipWraps.forEach((wrap) => {
+      wrap.classList.add('is-flipped');
+    });
+
+    // Confetti burst after the wave finishes (last delay is 2.80s + 0.85s transition)
+    const totalDuration = (2.80 + 0.85) * 1000 + 150;
+    setTimeout(spawnHeartConfetti, totalDuration);
+  }
+
+  window.triggerGalleryFlip = triggerWaveFlip;
+  window.resetGalleryFlip = function() {
+    hasFlipped = false;
+    flipWraps.forEach((wrap) => wrap.classList.remove('is-flipped'));
+  };
+
+  // Trigger automatically when user scrolls down to the gallery cards
+  const galleryObsTarget = $('gallery') || $('gallerySection');
+  if (galleryObsTarget && 'IntersectionObserver' in window) {
+    const flipObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && !hasFlipped) {
+          // Give user 600ms to see the cards before the romantic wave begins
+          setTimeout(triggerWaveFlip, 600);
+        }
+      });
+    }, {
+      threshold: 0.2
+    });
+    flipObserver.observe(galleryObsTarget);
+  }
+
+  // Scroll listener fallback to ensure reliable trigger across all devices
+  window.addEventListener('scroll', () => {
+    if (hasFlipped) return;
+    const target = $('gallery') || $('gallerySection');
+    if (!target) return;
+    const rect = target.getBoundingClientRect();
+    if (rect.top < window.innerHeight * 0.70 && rect.bottom > 0) {
+      setTimeout(triggerWaveFlip, 600);
+    }
+  }, { passive: true });
+
+  // Interactive tap: clicking card back flips back to photo
+  flipWraps.forEach((wrap) => {
+    const back = wrap.querySelector('.gallery-flip-back');
+    if (back) {
+      back.addEventListener('click', (e) => {
+        e.stopPropagation();
+        wrap.classList.remove('is-flipped');
+      });
+    }
+
+    // On note-card (no photo), clicking front flips to back
+    const noteFront = wrap.querySelector('.gallery-flip-front.note-card');
+    if (noteFront) {
+      noteFront.addEventListener('click', (e) => {
+        if (e.target.closest('.morph-flip-wrap')) return;
+        wrap.classList.add('is-flipped');
+      });
+    }
+
+    // On polaroid caption, clicking flips to back
+    const figcap = wrap.querySelector('figcaption');
+    if (figcap) {
+      figcap.style.cursor = 'pointer';
+      figcap.addEventListener('click', (e) => {
+        e.stopPropagation();
+        wrap.classList.add('is-flipped');
+      });
+    }
+  });
+
+  // Block lightbox open when cards are showing their backs
+  const origLightbox = document.querySelectorAll('#gallery .gallery-flip-front img');
+  origLightbox.forEach((img) => {
+    const wrap = img.closest('.gallery-flip-wrap');
+    if (!wrap) return;
+    img.addEventListener('click', (e) => {
+      if (wrap.classList.contains('is-flipped')) {
+        e.stopImmediatePropagation();
+      }
+    }, true);
+  });
+})();
+
+/* ============================================================
+   CSS RECORD PLAYER CONTROLLER ("เพลงของเรา — ไม่ซับซ้อน")
+   ============================================================ */
+(function initRecordPlayer() {
+  const $ = (id) => document.getElementById(id);
+  const playerEl = $('recordPlayerEl');
+  if (!playerEl) return;
+
+  const playBtn = $('vinylPlayBtn');
+  const recordDisc = $('recordDisc');
+  const tooltip = $('vinylTooltip');
+  const volBottom = $('volumeKnobBottom');
+  const volTop = $('volumeKnobTop');
+
+  // Create & setup HTML5 Audio
+  const audio = new Audio('/mai-sap-son.mp3');
+  audio.preload = 'auto';
+  audio.loop = true;
+
+  let isPlaying = false;
+  let playTimer = null;
+
+  function togglePlay(e) {
+    if (e) e.stopPropagation();
+
+    if (!isPlaying) {
+      isPlaying = true;
+
+      // Turntable animation
+      playerEl.classList.remove('is-stopped');
+      playerEl.classList.add('is-playing');
+
+      if (tooltip) {
+        tooltip.textContent = 'แตะเพื่อพักเพลง ⏸️';
+        tooltip.classList.add('is-hidden');
+      }
+
+      // 500ms realistic vinyl needle drop delay
+      playTimer = setTimeout(() => {
+        audio.play().catch((err) => {
+          console.warn('Audio playback interrupted:', err);
+        });
+      }, 500);
+
+    } else {
+      isPlaying = false;
+      if (playTimer) clearTimeout(playTimer);
+
+      audio.pause();
+
+      // Turntable animation
+      playerEl.classList.remove('is-playing');
+      playerEl.classList.add('is-stopped');
+
+      if (tooltip) {
+        tooltip.textContent = 'แตะเพื่อเล่นเพลง 🎵';
+        tooltip.classList.remove('is-hidden');
+      }
+    }
+  }
+
+  // Attach click events: can tap anywhere on the record disc or play button
+  if (playBtn) playBtn.addEventListener('click', togglePlay);
+  if (recordDisc) recordDisc.addEventListener('click', togglePlay);
+
+  // Volume & Mute Controls on the knobs
+  function toggleMute(e) {
+    if (e) e.stopPropagation();
+    audio.muted = !audio.muted;
+  }
+
+  if (volBottom) volBottom.addEventListener('click', toggleMute);
+  if (volTop) volTop.addEventListener('click', toggleMute);
+})();
+
 

@@ -4,9 +4,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Happy Anniversary!</title>
+  <title>Happy 2nd Month Anniversary!</title>
   <meta name="description"
-    content="A cinematic anniversary film in four acts: a beating heart you open with a tap, a rush of colour, a kinetic wish, and a tree that blooms into a heart of petals." />
+    content="A cinematic 2nd month anniversary film in four acts: a beating heart you open with a tap, a rush of colour, a kinetic wish, and a tree that blooms into a heart of petals." />
   <meta name="theme-color" content="#f7e7dc" />
   <link rel="icon" type="image/png" href="/favicon.png" />
 
@@ -228,7 +228,12 @@
         <h1 class="wish__hero" id="wHero">Happy Anniversary</h1>
       </div>
       <span class="wish__rule" id="wRule"></span>
-      <p class="wish__sub" id="wSub">One month down, forever to go.</p>
+      <p class="wish__sub" id="wSub">
+        <span class="morph-flip-wrap wish-milestone-morph" id="wishMorph" title="แตะเพื่อดูอนิเมชัน ✨">
+          <span class="morph-item morph-item--old">One month</span>
+          <span class="morph-item morph-item--new">Two months</span>
+        </span> down, forever to go.
+      </p>
     </div>
 
     <!-- Play the film again once it has settled. -->
@@ -272,9 +277,14 @@
 
               <!-- Postage Stamp & Postmark (Top Right) -->
               <div class="letter-stamp-wrap" aria-hidden="true">
-                <div class="postage-stamp">
+                <div class="postage-stamp" id="postageStamp" title="แตะเพื่อดูแสตมป์ ✨">
                   <div class="stamp-inner">
-                    <span class="stamp-rate">1st Mo.</span>
+                    <span class="stamp-rate" id="stampRate">
+                      <span class="morph-flip-wrap stamp-rate-morph" id="stampRateMorph">
+                        <span class="morph-item morph-item--old">1st Mo.</span>
+                        <span class="morph-item morph-item--new">2nd Mo.</span>
+                      </span>
+                    </span>
                     <svg class="stamp-heart-svg" viewBox="0 0 100 92" aria-hidden="true">
                       <path
                         d="M50 86.5C26 68 10.5 53.6 10.5 34.6 10.5 20.4 21 11 33.2 11c8.6 0 14.2 4.7 16.8 11.4C52.6 15.7 58.2 11 66.8 11 79 11 89.5 20.4 89.5 34.6 89.5 53.6 74 68 50 86.5Z"
@@ -283,10 +293,15 @@
                     <span class="stamp-text">LOVE</span>
                   </div>
                 </div>
-                <div class="postmark">
+                <div class="postmark" id="postmarkFront" title="ตราประทับ 17 OCT">
                   <div class="postmark-circle">
                     <span class="postmark-text-top">BANGKOK</span>
-                    <span class="postmark-date">17 SEP</span>
+                    <span class="postmark-date" id="postmarkDateFront">
+                      <span class="morph-flip-wrap postmark-date-morph">
+                        <span class="morph-item morph-item--old">17 SEP</span>
+                        <span class="morph-item morph-item--new">17 OCT</span>
+                      </span>
+                    </span>
                     <span class="postmark-text-bot">ANNIVERSARY</span>
                   </div>
                   <div class="postmark-waves">
@@ -314,16 +329,31 @@
                   <div class="letter-from">From : Film</div>
                   <div class="letter-to">To: Phakwan 💌</div>
                 </div>
-                <div class="letter-date">Date: September 17th ✨</div>
+                <div class="letter-date">
+                  Date: <span class="morph-flip-wrap letter-date-morph" id="letterDateMorph">
+                    <span class="morph-item morph-item--old">September 17th</span>
+                    <span class="morph-item morph-item--new">October 17th ✨</span>
+                  </span>
+                </div>
               </div>
 
               <!-- Letter Content with Ruled Stationery Lines -->
               <div class="letter-content">
-                <h2 class="letter-title">Happy 1st Month Anniversary ♥</h2>
+                <h2 class="letter-title">
+                  Happy 
+                  <span class="morph-flip-wrap letter-title-morph" id="letterTitleMorph" title="แตะเพื่อดูอนิเมชัน ✨">
+                    <span class="morph-item morph-item--old">1st Month</span>
+                    <span class="morph-item morph-item--new">2nd Month</span>
+                  </span> 
+                  Anniversary ♥
+                </h2>
                 <div class="letter-body">
-                  <p class="letter-line">ขอบคุณสำหรับ 1 เดือนที่ผ่านมานะ</p>
-                  <p class="letter-line">เค้าดีใจมากๆเยย ที่มีอ้วน เค้าไม่เคยรู้สึกแบบนี้มาก่อนเลย</p>
-                  <p class="letter-line letter-highlight">เค้ารักอ้วนที่สุดเยยย 💖</p>
+                  <p class="letter-line letter-line--milestone">
+                    ขอบคุณสำหรับ <span class="morph-flip-wrap num-flipper" id="bodyMonthNum"><span class="morph-item morph-item--old">1</span><span class="morph-item morph-item--new highlight-num">2</span></span> เดือนที่ผ่านมาน๊าา
+                  </p>
+                  <p class="letter-line">เค้าดีใจมากๆเยย ที่มีอ้วน เวลายิ่งผ่านไปเค้ายิ่งรักอ้วนมากขึ้นทุกวันเยยอ่าา</p>
+                  <p class="letter-line">ขอบคุณที่น่ารัก และคอยเป็นกำลังใจให้เค้าตลอดเยยย เค้าหายเหนื่อยเยยย</p>
+                  <p class="letter-line letter-highlight">เค้ารักอ้วนที่สุดในโลกเยยย 💖</p>
                 </div>
                 <div class="letter-signature">
                   <span class="signature-note">Forever & always,</span>
@@ -372,10 +402,15 @@
                     <span class="stamp-text">LOVE</span>
                   </div>
                 </div>
-                <div class="postmark">
+                <div class="postmark" id="postmarkBack" title="ตราประทับ 17 OCT">
                   <div class="postmark-circle">
                     <span class="postmark-text-top">TO FILM</span>
-                    <span class="postmark-date">17 SEP</span>
+                    <span class="postmark-date" id="postmarkDateBack">
+                      <span class="morph-flip-wrap postmark-date-morph">
+                        <span class="morph-item morph-item--old">17 SEP</span>
+                        <span class="morph-item morph-item--new">17 OCT</span>
+                      </span>
+                    </span>
                     <span class="postmark-text-bot">REPLY</span>
                   </div>
                   <div class="postmark-waves">
@@ -403,7 +438,7 @@
                   <div class="letter-from">To : Film ♥</div>
                   <div class="letter-to">From : Phakwan 💌</div>
                 </div>
-                <div class="letter-date">Date: September 17th ✨</div>
+                <div class="letter-date">Date: October 17th ✨</div>
               </div>
 
               <!-- Content & Form -->
@@ -449,75 +484,218 @@
       </div>
     </section>
 
+    <!-- SECTION: OUR SPECIAL SONG (CSS RECORD PLAYER) -->
+    <section class="record-section" id="recordSection" aria-label="Our Special Song">
+      <div class="record-section-intro">
+        <span class="record-section-pill">Our Special Song 🎵</span>
+        <h2 class="record-section-title">เพลงของเรา</h2>
+        <p class="record-section-subtitle">เปิดฟังไปด้วยกันนะอ้วนน... เพลงนี้ให้เธอคนเดียวเยยน๊าา 💕</p>
+      </div>
+
+      <div class="record-player-wrap">
+        <div class="vinyl-deck">
+          <div class="player is-stopped" id="recordPlayerEl">
+            <div class="record" id="recordDisc" title="แตะที่แผ่นเสียงหรือหัวเข็มเพื่อเล่นเพลง 🎶">
+              <div class="spindle"></div>
+              <div class="label">
+                <div class="label-decor label-decor--top">♥</div>
+                <h2 class="label-song-title">ไม่ซับซ้อน</h2>
+                <h3 class="label-artist">[Newery Ft. PONCHET]</h3>
+                <div class="label-dedication">To Phakwan</div>
+              </div>
+            </div>
+
+            <div class="arm-container" id="armContainer">
+              <div class="knob weight bottom"></div>
+              <div class="arm"></div>
+              <div class="knob weight top">
+                <button class="play" id="vinylPlayBtn" type="button" aria-label="เล่นเพลง">
+                  <div class="tooltip" id="vinylTooltip">แตะตรงนี้สิอ้วนน 🎧</div>
+                </button>
+              </div>
+            </div>
+
+            <div class="speaker" aria-hidden="true">
+              <div class="hole"></div>
+              <div class="hole"></div>
+              <div class="hole"></div>
+              <div class="hole"></div>
+              <div class="hole"></div>
+              <div class="hole"></div>
+              <div class="hole"></div>
+              <div class="hole"></div>
+            </div>
+
+            <div class="knob volume bottom" id="volumeKnobBottom" title="ปรับระดับเสียง" aria-hidden="true"> 
+              <div class="down"></div>
+              <div class="up"></div>
+            </div>
+            <div class="knob volume top" id="volumeKnobTop" title="ปรับระดับเสียง" aria-hidden="true"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Swaying Polaroid Gallery -->
     <section class="gallery-section" id="gallerySection" aria-label="Our Memories Gallery">
       <div class="gallery-intro">
         <h2 class="gallery-heading">Our Memories</h2>
-        <p class="gallery-subheading">One month of laughter, love & moments to keep forever ♥</p>
+        <p class="gallery-subheading">Two months of laughter, love & moments to keep forever ♥</p>
       </div>
 
       <div id="gallery">
-        <figure>
-          <img src="/photos/C0E34877-77A9-459D-917A-C319781E1C67.JPG" alt="Mabel in a basket">
-          <figcaption>Mabel in a basket 🐾</figcaption>
-        </figure>
-        <figure class="note-card">
-          <div>
-            <div>
-              <h2>To My Dearest ♥</h2>
-              <p>One month down,</p>
-              <p><span class="highlight-love">Forever to go ✨</span></p>
-            </div>
+
+        <!-- Card 1: เค้า -->
+        <div class="gallery-flip-wrap" data-flip-index="0">
+          <figure class="gallery-flip-front">
+            <img src="/photos/C0E34877-77A9-459D-917A-C319781E1C67.JPG" alt="Mabel in a basket">
+            <figcaption>Mabel in a basket 🐾</figcaption>
+          </figure>
+          <div class="gallery-flip-back">
+            <span class="flip-back-word">เค้า</span>
           </div>
-        </figure>
-        <figure>
-          <img src="/photos/3992BC23-C09C-406B-BFFF-92615BAD605B.jpg" alt="phakwan & Mabel">
-          <figcaption>phakwan & Mabel 🐱💕</figcaption>
-        </figure>
-        <figure>
-          <img src="/photos/IMG_6348.JPG" alt="phakwan">
-          <figcaption>phakwan ✨</figcaption>
-        </figure>
-        <figure>
-          <img src="/photos/IMG_6435.JPG" alt="phakwan">
-          <figcaption>phakwan 🤍</figcaption>
-        </figure>
-        <figure>
-          <img src="/photos/IMG_6648.JPG" alt="phakwan">
-          <figcaption>phakwan 🌸</figcaption>
-        </figure>
-        <figure>
-          <img src="/photos/IMG_6679.JPG" alt="Princess Mabel">
-          <figcaption>Princess Mabel 🎀</figcaption>
-        </figure>
-        <figure>
-          <img src="/photos/IMG_6791.JPG" alt="phakwan">
-          <figcaption>phakwan 🌷</figcaption>
-        </figure>
-        <figure>
-          <img src="/photos/426E2F29-32C1-48BB-B53E-0B044EB0E5E5.JPG" alt="Silly Mabel">
-          <figcaption>Silly Mabel 🐱</figcaption>
-        </figure>
-        <figure class="note-card">
-          <div>
-            <div>
+        </div>
+
+        <!-- Card 2: รัก -->
+        <div class="gallery-flip-wrap" data-flip-index="1">
+          <figure class="gallery-flip-front note-card">
+            <div><div>
+              <h2>To My Dearest ♥</h2>
+              <p>
+                <span class="morph-flip-wrap card-milestone-morph" id="cardMorph" title="แตะเพื่อดูอนิเมชัน ✨">
+                  <span class="morph-item morph-item--old">One month</span>
+                  <span class="morph-item morph-item--new">Two months</span>
+                </span> down,
+              </p>
+              <p><span class="highlight-love">Forever to go ✨</span></p>
+            </div></div>
+          </figure>
+          <div class="gallery-flip-back">
+            <span class="flip-back-word">รัก</span>
+          </div>
+        </div>
+
+        <!-- Card 3: อ้วน -->
+        <div class="gallery-flip-wrap" data-flip-index="2">
+          <figure class="gallery-flip-front">
+            <img src="/photos/3992BC23-C09C-406B-BFFF-92615BAD605B.jpg" alt="phakwan & Mabel">
+            <figcaption>phakwan & Mabel 🐱💕</figcaption>
+          </figure>
+          <div class="gallery-flip-back">
+            <span class="flip-back-word">อ้วน</span>
+          </div>
+        </div>
+
+        <!-- Card 4: ที่สุด -->
+        <div class="gallery-flip-wrap" data-flip-index="3">
+          <figure class="gallery-flip-front">
+            <img src="/photos/IMG_6348.JPG" alt="phakwan">
+            <figcaption>phakwan ✨</figcaption>
+          </figure>
+          <div class="gallery-flip-back">
+            <span class="flip-back-word">ที่สุด</span>
+          </div>
+        </div>
+
+        <!-- Card 5: ใน -->
+        <div class="gallery-flip-wrap" data-flip-index="4">
+          <figure class="gallery-flip-front">
+            <img src="/photos/IMG_6435.JPG" alt="phakwan">
+            <figcaption>phakwan 🤍</figcaption>
+          </figure>
+          <div class="gallery-flip-back">
+            <span class="flip-back-word">ใน</span>
+          </div>
+        </div>
+
+        <!-- Card 6: โลก -->
+        <div class="gallery-flip-wrap" data-flip-index="5">
+          <figure class="gallery-flip-front">
+            <img src="/photos/IMG_6648.JPG" alt="phakwan">
+            <figcaption>phakwan 🌸</figcaption>
+          </figure>
+          <div class="gallery-flip-back">
+            <span class="flip-back-word">โลก</span>
+          </div>
+        </div>
+
+        <!-- Card 7: เยยย -->
+        <div class="gallery-flip-wrap" data-flip-index="6">
+          <figure class="gallery-flip-front">
+            <img src="/photos/IMG_6679.JPG" alt="Princess Mabel">
+            <figcaption>Princess Mabel 🎀</figcaption>
+          </figure>
+          <div class="gallery-flip-back">
+            <span class="flip-back-word">เยยย</span>
+          </div>
+        </div>
+
+        <!-- Card 8: 💕 -->
+        <div class="gallery-flip-wrap" data-flip-index="7">
+          <figure class="gallery-flip-front">
+            <img src="/photos/IMG_6791.JPG" alt="phakwan">
+            <figcaption>phakwan 🌷</figcaption>
+          </figure>
+          <div class="gallery-flip-back">
+            <span class="flip-back-word flip-back-emoji">💕</span>
+          </div>
+        </div>
+
+        <!-- Card 9: ตลอด -->
+        <div class="gallery-flip-wrap" data-flip-index="8">
+          <figure class="gallery-flip-front">
+            <img src="/photos/426E2F29-32C1-48BB-B53E-0B044EB0E5E5.JPG" alt="Silly Mabel">
+            <figcaption>Silly Mabel 🐱</figcaption>
+          </figure>
+          <div class="gallery-flip-back">
+            <span class="flip-back-word">ตลอด</span>
+          </div>
+        </div>
+
+        <!-- Card 10: ไป -->
+        <div class="gallery-flip-wrap" data-flip-index="9">
+          <figure class="gallery-flip-front note-card">
+            <div><div>
               <h2>รักแฟนที่สุดเลย ♥</h2>
               <p>ขอบคุณที่น่ารักกับเค้าเสมอ</p>
               <p><span class="highlight-love">คนเก่งของเค้า 💖</span></p>
-            </div>
+            </div></div>
+          </figure>
+          <div class="gallery-flip-back">
+            <span class="flip-back-word">ไป</span>
           </div>
-        </figure>
-        <figure>
-          <img src="/photos/IMG_6332.jpg" alt="phakwan">
-          <figcaption>phakwan 🎡</figcaption>
-        </figure>
-        <figure>
-          <img src="/photos/EC5E25FD-641C-4B18-96D7-42A56FBD0D18.JPG" alt="Sleepy Mabel">
-          <figcaption>Sleepy Mabel 💤</figcaption>
-        </figure>
+        </div>
+
+        <!-- Card 11: นะ -->
+        <div class="gallery-flip-wrap" data-flip-index="10">
+          <figure class="gallery-flip-front">
+            <img src="/photos/IMG_6332.jpg" alt="phakwan">
+            <figcaption>phakwan 🎡</figcaption>
+          </figure>
+          <div class="gallery-flip-back">
+            <span class="flip-back-word">น๊าา</span>
+          </div>
+        </div>
+
+        <!-- Card 12: 💖 -->
+        <div class="gallery-flip-wrap" data-flip-index="11">
+          <figure class="gallery-flip-front">
+            <img src="/photos/EC5E25FD-641C-4B18-96D7-42A56FBD0D18.JPG" alt="Sleepy Mabel">
+            <figcaption>Sleepy Mabel 💤</figcaption>
+          </figure>
+          <div class="gallery-flip-back">
+            <span class="flip-back-word flip-back-emoji">💖</span>
+          </div>
+        </div>
+
       </div>
 
-      <footer id="info">1-Month</footer>
+      <footer id="info">
+        <span class="morph-flip-wrap footer-milestone-morph" id="footerMorph" title="แตะเพื่อดูอนิเมชัน ✨">
+          <span class="morph-item morph-item--old">1-Month</span>
+          <span class="morph-item morph-item--new">2-Months ♥</span>
+        </span>
+      </footer>
     </section>
   </div>
 
@@ -529,7 +707,7 @@
   </div>
 
   <!-- Accessible equivalent for reduced-motion + screen readers. -->
-  <p class="sr-only">Happy Anniversary. One month down, forever to go.</p>
+  <p class="sr-only">Happy Anniversary. Two months down, forever to go.</p>
 
   <script type="module" src="./birthday.js"></script>
 </body>
